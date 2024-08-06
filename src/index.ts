@@ -58,11 +58,13 @@ const allowedDeps = createRule<
             .slice(0, source.value.startsWith("@") ? 2 : 1)
             .join("/");
           const commons = { node: source, data: { name } };
-          if (!allowed.includes(name) && !isTypeImport) {
-            if (isTypeImport && !typeOnly.includes(name)) {
+          if (isTypeImport) {
+            if (!typeOnly.concat(allowed).includes(name)) {
               ctx.report({ ...commons, messageId: "typeOnly" });
-            } else {
-              ctx.report({ ...commons, messageId: "prohibited" });
+            }
+          } else {
+            if (!allowed.includes(name)) {
+              ctx.report({ ...commons, messageId: "typeOnly" });
             }
           }
         }
