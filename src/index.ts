@@ -104,7 +104,6 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
-        const isTypeImport = importKind === "type";
         if (
           !source.value.startsWith(".") &&
           !source.value.startsWith("node:")
@@ -113,7 +112,7 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
           const commons = { node: source, data: { name } };
 
           if (!allowed.includes(name)) {
-            if (!isTypeImport) {
+            if (importKind !== "type") {
               ctx.report({
                 ...commons,
                 messageId: limited.includes(name) ? "typeOnly" : "prohibited",
