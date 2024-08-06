@@ -12,6 +12,15 @@
     }
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobinTail/allowed-dependencies.git"
+  },
+  "homepage": "https://github.com/RobinTail/allowed-dependencies",
+  "author": {
+    "name": "Anna Bocharova",
+    "url": "https://robintail.cz"
+  },
   "files": ["dist", "*.md"],
   "scripts": {
     "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
