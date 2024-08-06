@@ -20,8 +20,20 @@ exports[`Allowed dependencies should consist of one rule 1`] = `
         },
         "schema": [
           {
+            "additionalProperties": false,
             "properties": {
               "manifest": {
+                "properties": {
+                  "dependencies": {
+                    "type": "object",
+                  },
+                  "peerDependencies": {
+                    "type": "object",
+                  },
+                  "peerDependenciesMeta": {
+                    "type": "object",
+                  },
+                },
                 "type": "object",
               },
               "optionalPeers": {
