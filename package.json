@@ -13,8 +13,8 @@
   },
   "files": ["dist", "*.md"],
   "scripts": {
-    "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs prepare/*.js -c -m -o dist/index.cjs",
-    "build": "bun run build.ts && bun run build:cjs",
+    "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
+    "build": "bun run build:cjs && bun run build.ts",
     "lint": "bun run biome check",
     "test": "tsc --noEmit && bun test src",
     "mdfix": "bunx --bun prettier *.md --write",
