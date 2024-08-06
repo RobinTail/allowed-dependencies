@@ -38,7 +38,7 @@ const itemSchema: JSONSchema.JSONSchema4 = {
   oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
 };
 
-const theRule = createRule<[Options], keyof typeof messages>({
+const theRule = createRule({
   meta: {
     messages,
     type: "problem",
