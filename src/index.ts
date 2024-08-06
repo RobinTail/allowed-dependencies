@@ -60,13 +60,13 @@ const theRule = createRule<
         ) {
           const name = getPackageName(source.value);
           const commons = { node: source, data: { name } };
-          if (isTypeImport) {
-            if (!typeOnly.concat(allowed).includes(name)) {
-              ctx.report({ ...commons, messageId: "typeOnly" });
-            }
-          } else {
-            if (!allowed.includes(name)) {
-              ctx.report({ ...commons, messageId: "prohibited" });
+
+          if (!allowed.includes(name)) {
+            if (!isTypeImport) {
+              ctx.report({
+                ...commons,
+                messageId: typeOnly.includes(name) ? "typeOnly" : "prohibited",
+              });
             }
           }
         }

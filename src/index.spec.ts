@@ -44,6 +44,11 @@ describe("Allowed dependencies", () => {
         code: `import type {} from "eslint"`,
         options: [{ manifest: { dependencies: {} }, typeOnly: ["eslint"] }],
       },
+      {
+        name: "type import of prod dependency",
+        code: `import type {} from "eslint"`,
+        options: [{ manifest: { dependencies: { eslint: "" } } }],
+      },
     ],
     invalid: [
       {
@@ -51,6 +56,25 @@ describe("Allowed dependencies", () => {
         code: `import {} from "eslint"`,
         options: [{ manifest: { dependencies: {} } }],
         errors: [{ messageId: "prohibited" }],
+      },
+      {
+        name: "regular import of optional peer dependency",
+        code: `import {} from "eslint"`,
+        options: [
+          {
+            manifest: {
+              peerDependencies: { eslint: "" },
+              peerDependenciesMeta: { eslint: { optional: true } },
+            },
+          },
+        ],
+        errors: [{ messageId: "typeOnly" }],
+      },
+      {
+        name: "regular import of unlisted type only dependency",
+        code: `import {} from "eslint"`,
+        options: [{ manifest: {}, typeOnly: ["eslint"] }],
+        errors: [{ messageId: "typeOnly" }],
       },
     ],
   });
