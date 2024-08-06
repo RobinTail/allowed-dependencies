@@ -1,0 +1,43 @@
+# https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  unitTest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Get bun cache dir and hash
+        id: bunCache
+        run: |
+          echo "dir=$(bun pm cache)" >> $GITHUB_OUTPUT
+          echo "hash=$(bun pm hash)" >> $GITHUB_OUTPUT
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.bunCache.outputs.dir }}
+          key: ${{ runner.os }}-build-cache-bun-${{ steps.bunCache.outputs.hash }}
+      - name: Install dependencies
+        run: bun install
+      - name: Testing
+        run: |
+          bun run lint
+          bun run test
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        continue-on-error: true
+        with:
+          github-token: ${{ secrets.github_token }}
+      - name: Build
+        run: bun run build
