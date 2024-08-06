@@ -14,6 +14,8 @@ import {
   mapObjIndexed,
   values,
   flatten,
+  map,
+  apply,
 } from "ramda";
 import type { FromSchema } from "json-schema-to-ts";
 
@@ -100,8 +102,10 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
         ).concat(extra),
       );
 
-    const allowed = take(true);
-    const limited = take("typeOnly", typeOnly);
+    const [allowed, limited] = map(apply(take), [
+      [true],
+      ["typeOnly", typeOnly],
+    ]);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
