@@ -1,0 +1,2 @@
+# eslint-plugin-allowed-dependencies
+

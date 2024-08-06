@@ -1,0 +1,35 @@
+{
+  "name": "eslint-plugin-allowed-dependencies",
+  "version": "0.0.1",
+  "module": "src/index.ts",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "*.md"],
+  "scripts": {
+    "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
+    "build": "bun run build:cjs && bun run build.ts"
+  },
+  "dependencies": {
+    "ramda": "^0.30.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/ramda": "^0.30.1",
+    "@tsconfig/node18": "^18.2.4",
+    "@tsconfig/bun": "^1.0.7",
+    "typescript": "^5.5.4",
+    "type-fest": "^4.23.0",
+    "uglify-js": "^3.19.1"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0",
+    "@typescript-eslint/utils": "^8.0.0"
+  }
+}
