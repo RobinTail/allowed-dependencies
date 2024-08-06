@@ -27,7 +27,6 @@ const theRule = createRule<
   meta: {
     messages,
     type: "problem",
-    fixable: "code",
     schema: [
       {
         type: "object",

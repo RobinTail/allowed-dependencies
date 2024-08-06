@@ -27,6 +27,7 @@
     "@tsconfig/bun": "^1.0.7",
     "@biomejs/biome": "1.8.3",
     "typescript": "^5.5.4",
+    "typescript-eslint": "^8.0.1",
     "type-fest": "^4.23.0",
     "uglify-js": "^3.19.1"
   },

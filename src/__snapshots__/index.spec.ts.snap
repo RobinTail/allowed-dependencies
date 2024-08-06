@@ -1,0 +1,43 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Allowed dependencies should consist of one rule 1`] = `
+{
+  "rules": {
+    "dependencies": {
+      "create": [Function: create],
+      "defaultOptions": [
+        {
+          "manifest": {},
+          "typeOnly": [],
+        },
+      ],
+      "meta": {
+        "messages": {
+          "prohibited": "Importing {{name}} is not allowed.",
+          "typeOnly": "Only 'import type' syntax is allowed for {{name}}.",
+        },
+        "schema": [
+          {
+            "properties": {
+              "manifest": {
+                "type": "object",
+              },
+              "typeOnly": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+            },
+            "required": [
+              "manifest",
+            ],
+            "type": "object",
+          },
+        ],
+        "type": "problem",
+      },
+    },
+  },
+}
+`;
