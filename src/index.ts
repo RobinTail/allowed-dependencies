@@ -11,6 +11,9 @@ import {
   startsWith,
   xprod,
   fromPairs,
+  mapObjIndexed,
+  values,
+  flatten,
 } from "ramda";
 import type { FromSchema } from "json-schema-to-ts";
 
@@ -74,33 +77,28 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
     schema: [schema],
   },
   defaultOptions: [defaults],
-  create: (
-    ctx,
-    [
-      {
-        manifest,
-        typeOnly = [],
-        production: hasProd,
-        requiredPeers: hasReqPeers,
-        optionalPeers: hasOptPeers,
-      },
-    ],
-  ) => {
+  create: (ctx, [{ manifest, typeOnly = [], ...rest }]) => {
     const lookup = flip(path)(manifest);
     const isOptional = (name: string) =>
       lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
-    const prod = Object.keys(manifest.dependencies || {});
     const peers = excludeTypes(Object.keys(manifest.peerDependencies || {}));
     const [optionalPeers, requiredPeers] = partition(isOptional, peers);
 
-    const allowed = (hasProd === true ? prod : [])
-      .concat(hasReqPeers === true ? requiredPeers : [])
-      .concat(hasOptPeers === true ? optionalPeers : []);
+    const sources: Record<keyof typeof rest, string[]> = {
+      production: Object.keys(manifest.dependencies || {}),
+      requiredPeers,
+      optionalPeers,
+    };
 
-    const limited = typeOnly
-      .concat(hasProd === "typeOnly" ? prod : [])
-      .concat(hasReqPeers === "typeOnly" ? requiredPeers : [])
-      .concat(hasOptPeers === "typeOnly" ? optionalPeers : []);
+    const take =
+      (subj: (typeof rest)[keyof typeof rest]) =>
+      (value: typeof subj, key: keyof typeof rest) =>
+        value === subj ? sources[key] : [];
+
+    const allowed = flatten(values(mapObjIndexed(take(true), rest)));
+    const limited = flatten(
+      values(mapObjIndexed(take("typeOnly"), rest)).concat(typeOnly),
+    );
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
