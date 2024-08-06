@@ -11,10 +11,7 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": [
-    "dist",
-    "*.md"
-  ],
+  "files": ["dist", "*.md"],
   "scripts": {
     "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
     "build": "bun run build:cjs && bun run build.ts",
