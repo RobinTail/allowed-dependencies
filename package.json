@@ -11,6 +11,7 @@
       "require": "./dist/index.cjs"
     }
   },
+  "license": "MIT",
   "files": ["dist", "*.md"],
   "scripts": {
     "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
