@@ -97,10 +97,8 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
       extra: string[] = [],
     ) =>
       flatten(
-        values(
-          mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest),
-        ).concat(extra),
-      );
+        values(mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest)),
+      ).concat(extra);
 
     const [allowed, limited] = map(apply(take), [
       [true],
