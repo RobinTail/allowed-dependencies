@@ -15,7 +15,8 @@
   "scripts": {
     "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
     "build": "bun run build:cjs && bun run build.ts",
-    "lint": "bun run biome check"
+    "lint": "bun run biome check",
+    "test": "tsc --noEmit && bun test src"
   },
   "dependencies": {
     "ramda": "^0.30.1"
