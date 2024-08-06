@@ -1,5 +1,5 @@
-import { ESLintUtils, TSESLint } from "@typescript-eslint/utils";
-import { flip, partition, path, reject, startsWith } from "ramda";
+import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
+import { path, flip, partition, reject, startsWith } from "ramda";
 import type { PackageJson } from "type-fest";
 
 const messages = {
@@ -9,9 +9,11 @@ const messages = {
 
 const createRule = ESLintUtils.RuleCreator.withoutDocs;
 const excludeTypes = reject(startsWith("@types/"));
-const getPackageName = (subject: string) => subject.split("/")
-  .slice(0, subject.startsWith("@") ? 2 : 1)
-  .join("/")
+const getPackageName = (subject: string) =>
+  subject
+    .split("/")
+    .slice(0, subject.startsWith("@") ? 2 : 1)
+    .join("/");
 
 const theRule = createRule<
   [
@@ -33,7 +35,7 @@ const theRule = createRule<
           manifest: { type: "object" },
           typeOnly: { type: "array", items: { type: "string" } },
         },
-        required: ["manifest"]
+        required: ["manifest"],
       },
     ],
   },
