@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-allowed-dependencies",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "module": "src/index.ts",
   "type": "module",
   "main": "dist/index.cjs",
@@ -11,7 +11,10 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist", "*.md"],
+  "files": [
+    "dist",
+    "*.md"
+  ],
   "scripts": {
     "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
     "build": "bun run build:cjs && bun run build.ts",
