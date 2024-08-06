@@ -26,7 +26,6 @@ const defaults: Options = {
   optionalPeers: "typeOnly",
 };
 
-const createRule = ESLintUtils.RuleCreator.withoutDocs;
 const excludeTypes = reject(startsWith("@types/"));
 const getPackageName = (subject: string) =>
   subject
@@ -38,7 +37,7 @@ const itemSchema: JSONSchema.JSONSchema4 = {
   oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
 };
 
-const theRule = createRule({
+const theRule = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     messages,
     type: "problem",
