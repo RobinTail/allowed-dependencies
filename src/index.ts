@@ -90,15 +90,18 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
       optionalPeers,
     };
 
-    const take =
-      (subj: (typeof rest)[keyof typeof rest]) =>
-      (value: typeof subj, key: keyof typeof rest) =>
-        value === subj ? sources[key] : [];
+    const take = (
+      subj: (typeof rest)[keyof typeof rest],
+      extra: string[] = [],
+    ) =>
+      flatten(
+        values(
+          mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest),
+        ).concat(extra),
+      );
 
-    const allowed = flatten(values(mapObjIndexed(take(true), rest)));
-    const limited = flatten(
-      values(mapObjIndexed(take("typeOnly"), rest)).concat(typeOnly),
-    );
+    const allowed = take(true);
+    const limited = take("typeOnly", typeOnly);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
