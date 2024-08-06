@@ -13,7 +13,7 @@ const getPackageName = (subject: string) => subject.split("/")
   .slice(0, subject.startsWith("@") ? 2 : 1)
   .join("/")
 
-const allowedDeps = createRule<
+const theRule = createRule<
   [
     {
       manifest: PackageJson.PackageJsonStandard;
@@ -74,5 +74,5 @@ const allowedDeps = createRule<
 });
 
 export default {
-  rules: { "allowed-dependencies": allowedDeps },
+  rules: { dependencies: theRule },
 } satisfies TSESLint.Linter.Plugin;
