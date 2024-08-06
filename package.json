@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-allowed-dependencies",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "module": "src/index.ts",
   "type": "module",
   "main": "dist/index.cjs",
@@ -21,7 +21,10 @@
     "name": "Anna Bocharova",
     "url": "https://robintail.cz"
   },
-  "files": ["dist", "*.md"],
+  "files": [
+    "dist",
+    "*.md"
+  ],
   "scripts": {
     "build:cjs": "tsc -p tsconfig.cjs.json && uglifyjs dist/index.js -c -m -o dist/index.cjs",
     "build": "bun run build:cjs && bun run build.ts",
