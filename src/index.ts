@@ -8,6 +8,10 @@ const messages = {
 };
 
 const createRule = ESLintUtils.RuleCreator.withoutDocs;
+const excludeTypes = reject(startsWith("@types/"));
+const getPackageName = (subject: string) => subject.split("/")
+  .slice(0, subject.startsWith("@") ? 2 : 1)
+  .join("/")
 
 const allowedDeps = createRule<
   [
@@ -35,7 +39,6 @@ const allowedDeps = createRule<
   defaultOptions: [{ manifest: {}, typeOnly: [] }],
   create: (ctx, [{ manifest, typeOnly: userTypeOnly = [] }]) => {
     const lookup = flip(path)(manifest);
-    const excludeTypes = reject(startsWith("@types/"));
     const isOptional = (name: string) =>
       lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
 
@@ -53,10 +56,7 @@ const allowedDeps = createRule<
           !source.value.startsWith(".") &&
           !source.value.startsWith("node:")
         ) {
-          const name = source.value
-            .split("/")
-            .slice(0, source.value.startsWith("@") ? 2 : 1)
-            .join("/");
+          const name = getPackageName(source.value);
           const commons = { node: source, data: { name } };
           if (isTypeImport) {
             if (!typeOnly.concat(allowed).includes(name)) {
