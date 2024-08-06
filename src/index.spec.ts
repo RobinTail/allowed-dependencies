@@ -50,7 +50,7 @@ describe("Allowed dependencies", () => {
         name: "regular import of unlisted dependency",
         code: `import {} from "eslint"`,
         options: [{ manifest: { dependencies: {} } }],
-        errors: [{ messageId: "typeOnly" }], // @todo should be prohibited
+        errors: [{ messageId: "prohibited" }],
       },
     ],
   });

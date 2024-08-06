@@ -66,7 +66,7 @@ const theRule = createRule<
             }
           } else {
             if (!allowed.includes(name)) {
-              ctx.report({ ...commons, messageId: "typeOnly" });
+              ctx.report({ ...commons, messageId: "prohibited" });
             }
           }
         }
