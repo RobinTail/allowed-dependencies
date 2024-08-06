@@ -30,9 +30,10 @@ const theRule = createRule<
       {
         type: "object",
         properties: {
-          manifest: { type: "object" }, // @todo use settings
+          manifest: { type: "object" },
           typeOnly: { type: "array", items: { type: "string" } },
         },
+        required: ["manifest"]
       },
     ],
   },
