@@ -7,6 +7,11 @@ const messages = {
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
 
+interface Options {
+  manifest: PackageJson.PackageJsonStandard;
+  typeOnly?: string[];
+}
+
 const createRule = ESLintUtils.RuleCreator.withoutDocs;
 const excludeTypes = reject(startsWith("@types/"));
 const getPackageName = (subject: string) =>
@@ -15,15 +20,7 @@ const getPackageName = (subject: string) =>
     .slice(0, subject.startsWith("@") ? 2 : 1)
     .join("/");
 
-const theRule = createRule<
-  [
-    {
-      manifest: PackageJson.PackageJsonStandard;
-      typeOnly?: string[];
-    },
-  ],
-  keyof typeof messages
->({
+const theRule = createRule<[Options], keyof typeof messages>({
   meta: {
     messages,
     type: "problem",
