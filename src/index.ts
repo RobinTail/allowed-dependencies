@@ -1,4 +1,8 @@
-import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
+import {
+  ESLintUtils,
+  type TSESLint,
+  type JSONSchema,
+} from "@typescript-eslint/utils";
 import { path, flip, partition, reject, startsWith } from "ramda";
 import type { PackageJson } from "type-fest";
 
@@ -7,10 +11,20 @@ const messages = {
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
 
-interface Options {
+type Variant = boolean | "typeOnly";
+type Items = Record<"production" | "requiredPeers" | "optionalPeers", Variant>;
+
+type Options = Partial<Items> & {
   manifest: PackageJson.PackageJsonStandard;
   typeOnly?: string[];
-}
+};
+
+const defaults: Options = {
+  manifest: {},
+  production: true,
+  requiredPeers: true,
+  optionalPeers: "typeOnly",
+};
 
 const createRule = ESLintUtils.RuleCreator.withoutDocs;
 const excludeTypes = reject(startsWith("@types/"));
@@ -19,6 +33,10 @@ const getPackageName = (subject: string) =>
     .split("/")
     .slice(0, subject.startsWith("@") ? 2 : 1)
     .join("/");
+
+const itemSchema: JSONSchema.JSONSchema4 = {
+  oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
+};
 
 const theRule = createRule<[Options], keyof typeof messages>({
   meta: {
@@ -30,23 +48,42 @@ const theRule = createRule<[Options], keyof typeof messages>({
         properties: {
           manifest: { type: "object" },
           typeOnly: { type: "array", items: { type: "string" } },
+          production: itemSchema,
+          requiredPeers: itemSchema,
+          optionalPeers: itemSchema,
         },
         required: ["manifest"],
       },
     ],
   },
-  defaultOptions: [{ manifest: {}, typeOnly: [] }],
-  create: (ctx, [{ manifest, typeOnly: userTypeOnly = [] }]) => {
+  defaultOptions: [defaults],
+  create: (
+    ctx,
+    [
+      {
+        manifest,
+        typeOnly = [],
+        production: hasProd,
+        requiredPeers: hasReqPeers,
+        optionalPeers: hasOptPeers,
+      },
+    ],
+  ) => {
     const lookup = flip(path)(manifest);
     const isOptional = (name: string) =>
       lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
+    const prod = Object.keys(manifest.dependencies || {});
+    const peers = excludeTypes(Object.keys(manifest.peerDependencies || {}));
+    const [optionalPeers, requiredPeers] = partition(isOptional, peers);
 
-    const allPeers = excludeTypes(Object.keys(manifest.peerDependencies || {}));
-    const [optPeers, reqPeers] = partition(isOptional, allPeers);
-    const production = Object.keys(manifest.dependencies || {});
+    const allowed = (hasProd === true ? prod : [])
+      .concat(hasReqPeers === true ? requiredPeers : [])
+      .concat(hasOptPeers === true ? optionalPeers : []);
 
-    const allowed = production.concat(reqPeers);
-    const typeOnly = optPeers.concat(userTypeOnly);
+    const limited = typeOnly
+      .concat(hasProd === "typeOnly" ? prod : [])
+      .concat(hasReqPeers === "typeOnly" ? requiredPeers : [])
+      .concat(hasOptPeers === "typeOnly" ? optionalPeers : []);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
@@ -62,7 +99,7 @@ const theRule = createRule<[Options], keyof typeof messages>({
             if (!isTypeImport) {
               ctx.report({
                 ...commons,
-                messageId: typeOnly.includes(name) ? "typeOnly" : "prohibited",
+                messageId: limited.includes(name) ? "typeOnly" : "prohibited",
               });
             }
           }
