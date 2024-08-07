@@ -56,6 +56,16 @@ describe("Allowed dependencies", () => {
         code: `import type {} from "eslint"`,
         options: [{ manifest: { dependencies: { eslint: "" } } }],
       },
+      {
+        name: "import a path of prod dependency",
+        code: `import {} from "eslint/something/useful.js"`,
+        options: [{ manifest: { dependencies: { "eslint": "" } } }],
+      },
+      {
+        name: "import of scoped required peer dependency",
+        code: `import {} from "@eslint/js/something"`,
+        options: [{ manifest: { peerDependencies: { "@eslint/js": "" } } }],
+      },
     ],
     invalid: [
       {
