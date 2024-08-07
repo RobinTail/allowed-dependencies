@@ -1,23 +1,23 @@
 import {
   ESLintUtils,
-  type TSESLint,
   type JSONSchema,
+  type TSESLint,
 } from "@typescript-eslint/utils";
+import type { FromSchema } from "json-schema-to-ts";
 import {
   path,
+  apply,
+  flatten,
   flip,
+  fromPairs,
+  map,
+  mapObjIndexed,
   partition,
   reject,
   startsWith,
-  xprod,
-  fromPairs,
-  mapObjIndexed,
   values,
-  flatten,
-  map,
-  apply,
+  xprod,
 } from "ramda";
-import type { FromSchema } from "json-schema-to-ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
