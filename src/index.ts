@@ -2,7 +2,7 @@ import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
 import type { FromSchema } from "json-schema-to-ts";
 import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
 import { getName, isLocal } from "./helpers.ts";
-import { options } from "./schema.ts";
+import { type Category, type Value, options } from "./schema.ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
@@ -32,15 +32,15 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
       Object.keys(manifest.peerDependencies || {}),
     );
 
-    const sources: Record<keyof typeof rest, string[]> = {
+    const sources: Record<Category, string[]> = {
       production: Object.keys(manifest.dependencies || {}),
       requiredPeers,
       optionalPeers,
     };
 
-    const take = (subj: (typeof rest)[keyof typeof rest]) =>
+    const take = (value: Value) =>
       flatten(
-        values(mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest)),
+        values(mapObjIndexed((v, k) => (v === value ? sources[k] : []), rest)),
       );
 
     const [allowed, limited] = [true, "typeOnly" as const].map(take);
