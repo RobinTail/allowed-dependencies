@@ -14,7 +14,6 @@ import {
   map,
   mapObjIndexed,
   partition,
-  reject,
   startsWith,
   values,
   xprod,
@@ -25,7 +24,6 @@ const messages = {
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
 
-const excludeTypes = reject(startsWith("@types/"));
 const isLocal = either(startsWith("."), startsWith("node:"));
 const isScoped = startsWith("@");
 const getPackageName = (imp: string) =>
@@ -86,8 +84,10 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
     const lookup = flip(path)(manifest);
     const isOptional = (name: string) =>
       lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
-    const peers = excludeTypes(Object.keys(manifest.peerDependencies || {}));
-    const [optionalPeers, requiredPeers] = partition(isOptional, peers);
+    const [optionalPeers, requiredPeers] = partition(
+      isOptional,
+      Object.keys(manifest.peerDependencies || {}),
+    );
 
     const sources: Record<keyof typeof rest, string[]> = {
       production: Object.keys(manifest.dependencies || {}),
