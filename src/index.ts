@@ -3,30 +3,20 @@ import type { FromSchema } from "json-schema-to-ts";
 import {
   path,
   apply,
-  either,
   flatten,
   flip,
-  flow,
-  join,
   map,
   mapObjIndexed,
   partition,
-  split,
-  startsWith,
-  take,
   values,
 } from "ramda";
+import { getName, isLocal } from "./helpers.ts";
 import { options } from "./schema.ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
-
-const isLocal = either(startsWith("."), startsWith("node:"));
-const hasScope = startsWith("@");
-const getName = (imp: string) =>
-  flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
 
 const defaults: FromSchema<typeof options> = {
   manifest: {},
