@@ -80,6 +80,9 @@ export default [
 
 ## Options
 
+By default, the plugin is configured to check source code: production dependencies and mandatory peers are allowed to
+import, but optional peers are allowed to be imported only as types.
+
 ```yaml
 manifest:
   description: Your package.json data, required
