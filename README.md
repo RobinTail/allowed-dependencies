@@ -17,6 +17,7 @@ The import syntax also matters: regular `import` or `import type` (excluded from
 
 ## Requirements
 
+- Node.js `^18.18.0 || ^20.9.0 || ^22.0.0`
 - `eslint@^9.0.0`
 - `typescript-eslint@^8.0.0`
 
