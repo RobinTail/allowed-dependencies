@@ -26,7 +26,7 @@
     "*.md"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "bun run tsup",
     "lint": "bun run biome check",
     "test": "tsc --noEmit && bun test src",
     "mdfix": "bunx --bun prettier *.md --write",
