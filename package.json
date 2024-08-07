@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-allowed-dependencies",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "module": "src/index.ts",
   "type": "module",
   "main": "dist/index.cjs",
