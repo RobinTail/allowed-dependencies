@@ -10,11 +10,15 @@ import {
   either,
   flatten,
   flip,
+  flow,
   fromPairs,
+  join,
   map,
   mapObjIndexed,
   partition,
+  split,
   startsWith,
+  take,
   values,
   xprod,
 } from "ramda";
@@ -25,12 +29,9 @@ const messages = {
 };
 
 const isLocal = either(startsWith("."), startsWith("node:"));
-const isScoped = startsWith("@");
-const getPackageName = (imp: string) =>
-  imp
-    .split("/")
-    .slice(0, isScoped(imp) ? 2 : 1)
-    .join("/");
+const hasScope = startsWith("@");
+const getName = (imp: string) =>
+  flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
 
 const valueSchema = {
   oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
@@ -111,13 +112,12 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
     return {
       ImportDeclaration: ({ source, importKind }) => {
         if (!isLocal(source.value)) {
-          const name = getPackageName(source.value);
-          const commons = { node: source, data: { name } };
-
+          const name = getName(source.value);
           if (!allowed.includes(name)) {
             if (importKind !== "type") {
               ctx.report({
-                ...commons,
+                node: source,
+                data: { name },
                 messageId: limited.includes(name) ? "typeOnly" : "prohibited",
               });
             }
