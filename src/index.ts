@@ -1,24 +1,14 @@
 import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
-import type { FromSchema } from "json-schema-to-ts";
-import {
-  path,
-  apply,
-  flatten,
-  flip,
-  map,
-  mapObjIndexed,
-  partition,
-  values,
-} from "ramda";
+import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
 import { getName, isLocal } from "./helpers.ts";
-import { options } from "./schema.ts";
+import { type Category, type Options, type Value, options } from "./schema.ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
 
-const defaults: FromSchema<typeof options> = {
+const defaults: Options = {
   manifest: {},
   production: true,
   requiredPeers: true,
@@ -41,18 +31,19 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
       Object.keys(manifest.peerDependencies || {}),
     );
 
-    const sources: Record<keyof typeof rest, string[]> = {
+    const sources: Record<Category, string[]> = {
       production: Object.keys(manifest.dependencies || {}),
       requiredPeers,
       optionalPeers,
     };
 
-    const take = (subj: (typeof rest)[keyof typeof rest]) =>
+    const take = (value: Value) =>
       flatten(
-        values(mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest)),
+        values(mapObjIndexed((v, k) => (v === value ? sources[k] : []), rest)),
       );
 
-    const [allowed, limited] = map(apply(take), [[true], ["typeOnly"]]);
+    const [allowed, limited] = [true, "typeOnly" as const].map(take);
+    limited.push(...typeOnly);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
@@ -63,9 +54,7 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
               ctx.report({
                 node: source,
                 data: { name },
-                messageId: limited.concat(typeOnly).includes(name)
-                  ? "typeOnly"
-                  : "prohibited",
+                messageId: limited.includes(name) ? "typeOnly" : "prohibited",
               });
             }
           }
