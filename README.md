@@ -80,10 +80,10 @@ export default [
 
 ## Options
 
-| Option        | Type                | Default  | Description                                                     |
-| ------------- | ------------------- | -------- | --------------------------------------------------------------- |
-| **manifest**  | object              |          | your parsed package.json, required                              |
-| production    | boolean or typeOnly | true     | allow importing ones in dependencies                            |
-| requiredPeers | boolean or typeOnly | true     | allow importing non-optional ones in peerDependencies           |
-| optionalPeers | boolean or typeOnly | typeOnly | allow importing ones marked as optional in peerDependenciesMeta |
-| typeOnly      | string[]            | []       | extras to allow type only imports                               |
+| Option        | Type                | Default  | Description                                                        |
+| ------------- | ------------------- | -------- | ------------------------------------------------------------------ |
+| **manifest**  | object              |          | your `package.json` data, required                                 |
+| production    | boolean or typeOnly | true     | allow importing the ones in `dependencies`                         |
+| requiredPeers | boolean or typeOnly | true     | allow importing non-optional ones in `peerDependencies`            |
+| optionalPeers | boolean or typeOnly | typeOnly | allow importing those marked as optional in `peerDependenciesMeta` |
+| typeOnly      | string[]            | []       | extras to allow type only imports                                  |
