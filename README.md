@@ -49,7 +49,17 @@ export default [
     rules: {
       "allowed/dependencies": [
         "error",
-        { manifest: JSON.parse(readFileSync("./package.json", "utf8")) },
+        {
+          // or just import it if supported by your enviornment:
+          manifest: JSON.parse(readFileSync("./package.json", "utf8")),
+          // these are defaults:
+          /*
+          production: true,
+          requiredPeers: true,
+          optionalPeers: "typeOnly",
+          typeOnly: [],
+           */
+        },
       ],
     },
   },
@@ -61,9 +71,9 @@ export default [
 ## Options
 
 | Option        | Type                | Default  | Description                                                     |
-|---------------|---------------------|----------|-----------------------------------------------------------------|
+| ------------- | ------------------- | -------- | --------------------------------------------------------------- |
 | **manifest**  | object              |          | your parsed package.json, required                              |
 | production    | boolean or typeOnly | true     | allow importing ones in dependencies                            |
 | requiredPeers | boolean or typeOnly | true     | allow importing non-optional ones in peerDependencies           |
 | optionalPeers | boolean or typeOnly | typeOnly | allow importing ones marked as optional in peerDependenciesMeta |
-| typeOnly      | string[]            |          | extras to allow type only imports                               |
+| typeOnly      | string[]            | []       | extras to allow type only imports                               |
