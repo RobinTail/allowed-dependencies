@@ -12,7 +12,7 @@ describe("Allowed dependencies", () => {
   });
 
   it("should consist of one rule", () => {
-    expect(plugin).toMatchSnapshot();
+    expect(Object.keys(plugin.rules)).toEqual(["dependencies"]);
   });
 
   tester.run("dependencies", plugin.rules.dependencies, {

@@ -1,0 +1,72 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Schema options has the required props 1`] = `
+{
+  "additionalProperties": false,
+  "properties": {
+    "manifest": {
+      "properties": {
+        "dependencies": {
+          "type": "object",
+        },
+        "peerDependencies": {
+          "type": "object",
+        },
+        "peerDependenciesMeta": {
+          "type": "object",
+        },
+      },
+      "type": "object",
+    },
+    "optionalPeers": {
+      "oneOf": [
+        {
+          "type": "boolean",
+        },
+        {
+          "enum": [
+            "typeOnly",
+          ],
+          "type": "string",
+        },
+      ],
+    },
+    "production": {
+      "oneOf": [
+        {
+          "type": "boolean",
+        },
+        {
+          "enum": [
+            "typeOnly",
+          ],
+          "type": "string",
+        },
+      ],
+    },
+    "requiredPeers": {
+      "oneOf": [
+        {
+          "type": "boolean",
+        },
+        {
+          "enum": [
+            "typeOnly",
+          ],
+          "type": "string",
+        },
+      ],
+    },
+    "typeOnly": {
+      "items": {
+        "type": "string",
+      },
+      "type": "array",
+    },
+  },
+  "required": [
+    "manifest",
+  ],
+  "type": "object",
+}
+`;
