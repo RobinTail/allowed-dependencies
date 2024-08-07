@@ -1,15 +1,14 @@
 import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
-import type { FromSchema } from "json-schema-to-ts";
 import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
 import { getName, isLocal } from "./helpers.ts";
-import { type Category, type Value, options } from "./schema.ts";
+import { type Category, type Options, type Value, options } from "./schema.ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
 
-const defaults: FromSchema<typeof options> = {
+const defaults: Options = {
   manifest: {},
   production: true,
   requiredPeers: true,

@@ -35,3 +35,4 @@ export const options = {
   additionalProperties: false,
   required: ["manifest"],
 } as const satisfies JSONSchema.JSONSchema4;
+export type Options = FromSchema<typeof options>;
