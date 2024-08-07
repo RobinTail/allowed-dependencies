@@ -1,8 +1,4 @@
-import {
-  ESLintUtils,
-  type JSONSchema,
-  type TSESLint,
-} from "@typescript-eslint/utils";
+import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
 import type { FromSchema } from "json-schema-to-ts";
 import {
   path,
@@ -11,7 +7,6 @@ import {
   flatten,
   flip,
   flow,
-  fromPairs,
   join,
   map,
   mapObjIndexed,
@@ -20,8 +15,8 @@ import {
   startsWith,
   take,
   values,
-  xprod,
 } from "ramda";
+import { schema } from "./schema.ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
@@ -32,40 +27,6 @@ const isLocal = either(startsWith("."), startsWith("node:"));
 const hasScope = startsWith("@");
 const getName = (imp: string) =>
   flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
-
-const valueSchema = {
-  oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
-} as const satisfies JSONSchema.JSONSchema4;
-
-const itemsSchema = {
-  type: "object",
-  properties: fromPairs(
-    xprod(["production", "optionalPeers", "requiredPeers"] as const, [
-      valueSchema,
-    ]),
-  ),
-} as const satisfies JSONSchema.JSONSchema4;
-
-const manifestSchema = {
-  type: "object",
-  properties: fromPairs(
-    xprod(
-      ["dependencies", "peerDependencies", "peerDependenciesMeta"] as const,
-      [{ type: "object" } as const],
-    ),
-  ),
-} as const satisfies JSONSchema.JSONSchema4;
-
-const schema = {
-  type: "object",
-  properties: {
-    manifest: manifestSchema,
-    typeOnly: { type: "array", items: { type: "string" } },
-    ...itemsSchema.properties,
-  },
-  additionalProperties: false,
-  required: ["manifest"],
-} as const satisfies JSONSchema.JSONSchema4;
 
 const defaults: FromSchema<typeof schema> = {
   manifest: {},
