@@ -29,12 +29,23 @@ yarn add --dev eslint-plugin-allowed-dependencies
 
 ## Setup
 
+Example of plugin setup and different ways to provide `package.json` data to it:
+
 ```javascript
-// eslint.config.js
+// eslint.config.js or .mjs if you're developing in CommonJS environment
 import jsPlugin from "@eslint/js";
 import tsPlugin from "typescript-eslint";
 import allowedDepsPlugin from "eslint-plugin-allowed-dependencies";
-import { readFileSync } from "node:fs";
+
+// For Node 18 and 20:
+import manifest from "./package.json" assert { type: "json" };
+
+// For Node 22:
+// import manifest from "./package.json" with { type: "json" };
+
+// For all those versions and the environments having no JSON import support:
+// import { readFileSync } from "node:fs";
+// const manifest = JSON.parse(readFileSync("./package.json", "utf8"));
 
 export default [
   {
@@ -51,9 +62,7 @@ export default [
       "allowed/dependencies": [
         "error",
         {
-          // or just import it if supported by your environment:
-          manifest: JSON.parse(readFileSync("./package.json", "utf8")),
-          // these are defaults:
+          manifest, // these are defaults:
           /*
           production: true,
           requiredPeers: true,
