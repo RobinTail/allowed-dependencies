@@ -16,7 +16,7 @@ import {
   take,
   values,
 } from "ramda";
-import { schema } from "./schema.ts";
+import { options } from "./schema.ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
@@ -28,7 +28,7 @@ const hasScope = startsWith("@");
 const getName = (imp: string) =>
   flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
 
-const defaults: FromSchema<typeof schema> = {
+const defaults: FromSchema<typeof options> = {
   manifest: {},
   production: true,
   requiredPeers: true,
@@ -39,7 +39,7 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     messages,
     type: "problem",
-    schema: [schema],
+    schema: [options],
   },
   defaultOptions: [defaults],
   create: (ctx, [{ manifest, typeOnly = [], ...rest }]) => {

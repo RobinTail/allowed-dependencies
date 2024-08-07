@@ -1,20 +1,18 @@
 import type { JSONSchema } from "@typescript-eslint/utils";
 import { fromPairs, xprod } from "ramda";
 
-const valueSchema = {
+const value = {
   oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
 } as const satisfies JSONSchema.JSONSchema4;
 
-const itemsSchema = {
+const controls = {
   type: "object",
   properties: fromPairs(
-    xprod(["production", "optionalPeers", "requiredPeers"] as const, [
-      valueSchema,
-    ]),
+    xprod(["production", "optionalPeers", "requiredPeers"] as const, [value]),
   ),
 } as const satisfies JSONSchema.JSONSchema4;
 
-const manifestSchema = {
+const manifest = {
   type: "object",
   properties: fromPairs(
     xprod(
@@ -24,12 +22,12 @@ const manifestSchema = {
   ),
 } as const satisfies JSONSchema.JSONSchema4;
 
-export const schema = {
+export const options = {
   type: "object",
   properties: {
-    manifest: manifestSchema,
+    manifest: manifest,
     typeOnly: { type: "array", items: { type: "string" } },
-    ...itemsSchema.properties,
+    ...controls.properties,
   },
   additionalProperties: false,
   required: ["manifest"],
