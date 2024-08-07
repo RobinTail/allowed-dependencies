@@ -1,5 +1,6 @@
 {
   "name": "eslint-plugin-allowed-dependencies",
+  "description": "ESLint plugin Allowed Dependencies",
   "version": "0.2.0",
   "module": "src/index.ts",
   "type": "module",
