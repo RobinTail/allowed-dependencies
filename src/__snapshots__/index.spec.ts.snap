@@ -8,7 +8,9 @@ exports[`Allowed dependencies should consist of one rule 1`] = `
       "defaultOptions": [
         {
           "manifest": {},
-          "typeOnly": [],
+          "optionalPeers": "typeOnly",
+          "production": true,
+          "requiredPeers": true,
         },
       ],
       "meta": {
@@ -18,9 +20,60 @@ exports[`Allowed dependencies should consist of one rule 1`] = `
         },
         "schema": [
           {
+            "additionalProperties": false,
             "properties": {
               "manifest": {
+                "properties": {
+                  "dependencies": {
+                    "type": "object",
+                  },
+                  "peerDependencies": {
+                    "type": "object",
+                  },
+                  "peerDependenciesMeta": {
+                    "type": "object",
+                  },
+                },
                 "type": "object",
+              },
+              "optionalPeers": {
+                "oneOf": [
+                  {
+                    "type": "boolean",
+                  },
+                  {
+                    "enum": [
+                      "typeOnly",
+                    ],
+                    "type": "string",
+                  },
+                ],
+              },
+              "production": {
+                "oneOf": [
+                  {
+                    "type": "boolean",
+                  },
+                  {
+                    "enum": [
+                      "typeOnly",
+                    ],
+                    "type": "string",
+                  },
+                ],
+              },
+              "requiredPeers": {
+                "oneOf": [
+                  {
+                    "type": "boolean",
+                  },
+                  {
+                    "enum": [
+                      "typeOnly",
+                    ],
+                    "type": "string",
+                  },
+                ],
               },
               "typeOnly": {
                 "items": {

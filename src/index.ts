@@ -1,68 +1,120 @@
-import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
-import { path, flip, partition, reject, startsWith } from "ramda";
-import type { PackageJson } from "type-fest";
+import {
+  ESLintUtils,
+  type JSONSchema,
+  type TSESLint,
+} from "@typescript-eslint/utils";
+import type { FromSchema } from "json-schema-to-ts";
+import {
+  path,
+  apply,
+  either,
+  flatten,
+  flip,
+  flow,
+  fromPairs,
+  join,
+  map,
+  mapObjIndexed,
+  partition,
+  split,
+  startsWith,
+  take,
+  values,
+  xprod,
+} from "ramda";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
 
-interface Options {
-  manifest: PackageJson.PackageJsonStandard;
-  typeOnly?: string[];
-}
+const isLocal = either(startsWith("."), startsWith("node:"));
+const hasScope = startsWith("@");
+const getName = (imp: string) =>
+  flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
 
-const createRule = ESLintUtils.RuleCreator.withoutDocs;
-const excludeTypes = reject(startsWith("@types/"));
-const getPackageName = (subject: string) =>
-  subject
-    .split("/")
-    .slice(0, subject.startsWith("@") ? 2 : 1)
-    .join("/");
+const valueSchema = {
+  oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
+} as const satisfies JSONSchema.JSONSchema4;
 
-const theRule = createRule<[Options], keyof typeof messages>({
+const itemsSchema = {
+  type: "object",
+  properties: fromPairs(
+    xprod(["production", "optionalPeers", "requiredPeers"] as const, [
+      valueSchema,
+    ]),
+  ),
+} as const satisfies JSONSchema.JSONSchema4;
+
+const manifestSchema = {
+  type: "object",
+  properties: fromPairs(
+    xprod(
+      ["dependencies", "peerDependencies", "peerDependenciesMeta"] as const,
+      [{ type: "object" } as const],
+    ),
+  ),
+} as const satisfies JSONSchema.JSONSchema4;
+
+const schema = {
+  type: "object",
+  properties: {
+    manifest: manifestSchema,
+    typeOnly: { type: "array", items: { type: "string" } },
+    ...itemsSchema.properties,
+  },
+  additionalProperties: false,
+  required: ["manifest"],
+} as const satisfies JSONSchema.JSONSchema4;
+
+const defaults: FromSchema<typeof schema> = {
+  manifest: {},
+  production: true,
+  requiredPeers: true,
+  optionalPeers: "typeOnly",
+};
+
+const theRule = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     messages,
     type: "problem",
-    schema: [
-      {
-        type: "object",
-        properties: {
-          manifest: { type: "object" },
-          typeOnly: { type: "array", items: { type: "string" } },
-        },
-        required: ["manifest"],
-      },
-    ],
+    schema: [schema],
   },
-  defaultOptions: [{ manifest: {}, typeOnly: [] }],
-  create: (ctx, [{ manifest, typeOnly: userTypeOnly = [] }]) => {
+  defaultOptions: [defaults],
+  create: (ctx, [{ manifest, typeOnly = [], ...rest }]) => {
     const lookup = flip(path)(manifest);
     const isOptional = (name: string) =>
       lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
+    const [optionalPeers, requiredPeers] = partition(
+      isOptional,
+      Object.keys(manifest.peerDependencies || {}),
+    );
 
-    const allPeers = excludeTypes(Object.keys(manifest.peerDependencies || {}));
-    const [optPeers, reqPeers] = partition(isOptional, allPeers);
-    const production = Object.keys(manifest.dependencies || {});
+    const sources: Record<keyof typeof rest, string[]> = {
+      production: Object.keys(manifest.dependencies || {}),
+      requiredPeers,
+      optionalPeers,
+    };
 
-    const allowed = production.concat(reqPeers);
-    const typeOnly = optPeers.concat(userTypeOnly);
+    const take = (subj: (typeof rest)[keyof typeof rest]) =>
+      flatten(
+        values(mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest)),
+      );
+
+    const [allowed, limited] = map(apply(take), [[true], ["typeOnly"]]);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
-        const isTypeImport = importKind === "type";
-        if (
-          !source.value.startsWith(".") &&
-          !source.value.startsWith("node:")
-        ) {
-          const name = getPackageName(source.value);
-          const commons = { node: source, data: { name } };
-
+        if (!isLocal(source.value)) {
+          const name = getName(source.value);
           if (!allowed.includes(name)) {
-            if (!isTypeImport) {
+            if (importKind !== "type") {
               ctx.report({
-                ...commons,
-                messageId: typeOnly.includes(name) ? "typeOnly" : "prohibited",
+                node: source,
+                data: { name },
+                messageId: limited.concat(typeOnly).includes(name)
+                  ? "typeOnly"
+                  : "prohibited",
               });
             }
           }

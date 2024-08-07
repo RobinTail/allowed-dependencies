@@ -23,6 +23,13 @@ describe("Allowed dependencies", () => {
         options: [{ manifest: { dependencies: { eslint: "" } } }],
       },
       {
+        name: "regular import of explicitly enabled prod dependencies",
+        code: `import {} from "eslint"`,
+        options: [
+          { manifest: { dependencies: { eslint: "" } }, production: true },
+        ],
+      },
+      {
         name: "regular import of required peer dependency",
         code: `import {} from "eslint"`,
         options: [{ manifest: { peerDependencies: { eslint: "" } } }],
@@ -49,12 +56,30 @@ describe("Allowed dependencies", () => {
         code: `import type {} from "eslint"`,
         options: [{ manifest: { dependencies: { eslint: "" } } }],
       },
+      {
+        name: "import a path of prod dependency",
+        code: `import {} from "eslint/something/useful.js"`,
+        options: [{ manifest: { dependencies: { eslint: "" } } }],
+      },
+      {
+        name: "import of scoped required peer dependency",
+        code: `import {} from "@eslint/js/something"`,
+        options: [{ manifest: { peerDependencies: { "@eslint/js": "" } } }],
+      },
     ],
     invalid: [
       {
         name: "regular import of unlisted dependency",
         code: `import {} from "eslint"`,
         options: [{ manifest: { dependencies: {} } }],
+        errors: [{ messageId: "prohibited" }],
+      },
+      {
+        name: "regular import of explicitly disabled prod dependency",
+        code: `import {} from "eslint"`,
+        options: [
+          { manifest: { dependencies: { eslint: "" } }, production: false },
+        ],
         errors: [{ messageId: "prohibited" }],
       },
       {
