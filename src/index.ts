@@ -1,15 +1,6 @@
 import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
 import type { FromSchema } from "json-schema-to-ts";
-import {
-  path,
-  apply,
-  flatten,
-  flip,
-  map,
-  mapObjIndexed,
-  partition,
-  values,
-} from "ramda";
+import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
 import { getName, isLocal } from "./helpers.ts";
 import { options } from "./schema.ts";
 
@@ -52,7 +43,7 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
         values(mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest)),
       );
 
-    const [allowed, limited] = map(apply(take), [[true], ["typeOnly"]]);
+    const [allowed, limited] = [true, "typeOnly" as const].map(take);
     limited.push(...typeOnly);
 
     return {
