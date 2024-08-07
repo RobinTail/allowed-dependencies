@@ -53,6 +53,7 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
       );
 
     const [allowed, limited] = map(apply(take), [[true], ["typeOnly"]]);
+    limited.push(...typeOnly);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
@@ -63,9 +64,7 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
               ctx.report({
                 node: source,
                 data: { name },
-                messageId: limited.concat(typeOnly).includes(name)
-                  ? "typeOnly"
-                  : "prohibited",
+                messageId: limited.includes(name) ? "typeOnly" : "prohibited",
               });
             }
           }
