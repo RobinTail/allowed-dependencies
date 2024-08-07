@@ -7,6 +7,7 @@ import type { FromSchema } from "json-schema-to-ts";
 import {
   path,
   apply,
+  either,
   flatten,
   flip,
   fromPairs,
@@ -25,6 +26,7 @@ const messages = {
 };
 
 const excludeTypes = reject(startsWith("@types/"));
+const isLocal = either(startsWith("."), startsWith("node:"));
 const getPackageName = (subject: string) =>
   subject
     .split("/")
@@ -107,10 +109,7 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
-        if (
-          !source.value.startsWith(".") &&
-          !source.value.startsWith("node:")
-        ) {
+        if (!isLocal(source.value)) {
           const name = getPackageName(source.value);
           const commons = { node: source, data: { name } };
 
