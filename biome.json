@@ -85,11 +85,12 @@
   },
   "overrides": [
     {
-      "include": ["**/*.spec.ts"],
+      "include": ["**/*.spec.ts", "tsup.config.ts"],
       "linter": {
         "rules": {
           "suspicious": { "noExplicitAny": "off" },
-          "performance": { "noAccumulatingSpread": "off" }
+          "performance": { "noAccumulatingSpread": "off" },
+          "style": { "noNonNullAssertion": "off" }
         }
       }
     }
