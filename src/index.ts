@@ -96,18 +96,12 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
       optionalPeers,
     };
 
-    const take = (
-      subj: (typeof rest)[keyof typeof rest],
-      extra: string[] = [],
-    ) =>
+    const take = (subj: (typeof rest)[keyof typeof rest]) =>
       flatten(
         values(mapObjIndexed((v, k) => (v === subj ? sources[k] : []), rest)),
-      ).concat(extra);
+      );
 
-    const [allowed, limited] = map(apply(take), [
-      [true],
-      ["typeOnly", typeOnly],
-    ]);
+    const [allowed, limited] = map(apply(take), [[true], ["typeOnly"]]);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
@@ -118,7 +112,9 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
               ctx.report({
                 node: source,
                 data: { name },
-                messageId: limited.includes(name) ? "typeOnly" : "prohibited",
+                messageId: limited.concat(typeOnly).includes(name)
+                  ? "typeOnly"
+                  : "prohibited",
               });
             }
           }
