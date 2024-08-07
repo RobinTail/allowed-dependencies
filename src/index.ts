@@ -27,10 +27,11 @@ const messages = {
 
 const excludeTypes = reject(startsWith("@types/"));
 const isLocal = either(startsWith("."), startsWith("node:"));
-const getPackageName = (subject: string) =>
-  subject
+const isScoped = startsWith("@");
+const getPackageName = (imp: string) =>
+  imp
     .split("/")
-    .slice(0, subject.startsWith("@") ? 2 : 1)
+    .slice(0, isScoped(imp) ? 2 : 1)
     .join("/");
 
 const valueSchema = {
