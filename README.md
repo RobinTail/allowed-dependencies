@@ -51,7 +51,7 @@ export default [
       "allowed/dependencies": [
         "error",
         {
-          // or just import it if supported by your enviornment:
+          // or just import it if supported by your environment:
           manifest: JSON.parse(readFileSync("./package.json", "utf8")),
           // these are defaults:
           /*
