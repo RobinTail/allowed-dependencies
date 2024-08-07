@@ -55,5 +55,18 @@
   },
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || ^22.0.0"
-  }
+  },
+  "keywords": [
+    "modules",
+    "eslint",
+    "eslint-plugin",
+    "import",
+    "eslint-rules",
+    "dependencies",
+    "eslintplugin",
+    "restriction",
+    "external-dependency",
+    "exhaustive",
+    "extraneous"
+  ]
 }
