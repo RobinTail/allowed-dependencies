@@ -1,6 +1,6 @@
 import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
 import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
-import { getName, isLocal } from "./helpers.ts";
+import { getName } from "./helpers.ts";
 import { type Category, type Options, type Value, options } from "./schema.ts";
 
 const messages = {
@@ -22,7 +22,10 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
     schema: [options],
   },
   defaultOptions: [defaults],
-  create: (ctx, [{ manifest, typeOnly = [], ...rest }]) => {
+  create: (
+    ctx,
+    [{ manifest, typeOnly = [], ignore = ["^\\.", "^node:"], ...rest }],
+  ) => {
     const lookup = flip(path)(manifest);
     const isOptional = (name: string) =>
       lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
@@ -45,9 +48,12 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
     const [allowed, limited] = [true, "typeOnly" as const].map(take);
     limited.push(...typeOnly);
 
+    const isIgnored = (imp: string) =>
+      ignore.some((entry) => new RegExp(entry).test(imp));
+
     return {
       ImportDeclaration: ({ source, importKind }) => {
-        if (!isLocal(source.value)) {
+        if (!isIgnored(source.value)) {
           const name = getName(source.value);
           if (!allowed.includes(name)) {
             if (importKind !== "type") {

@@ -1,7 +1,4 @@
-import { either, flow, join, split, startsWith, take } from "ramda";
-
-/** is local import: starts with dot or refers to a built-in node module */
-export const isLocal = either(startsWith("."), startsWith("node:"));
+import { flow, join, split, startsWith, take } from "ramda";
 
 /** is scoped import: starts with "at" */
 const hasScope = startsWith("@");

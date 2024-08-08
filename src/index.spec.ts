@@ -66,6 +66,21 @@ describe("Allowed dependencies", () => {
         code: `import {} from "@eslint/js/something"`,
         options: [{ manifest: { peerDependencies: { "@eslint/js": "" } } }],
       },
+      {
+        name: "import of local path",
+        code: `import {} from "./some/path.js"`,
+        options: [{ manifest: {} }],
+      },
+      {
+        name: "import of built-in module",
+        code: `import { readFileSync } from "node:fs"`,
+        options: [{ manifest: {} }],
+      },
+      {
+        name: "import of something explicitly ignored by regex",
+        code: `import {} from "fancy-module"`,
+        options: [{ manifest: {}, ignore: ["^fancy-\\w+$"] }],
+      },
     ],
     invalid: [
       {
