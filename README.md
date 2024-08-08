@@ -120,6 +120,6 @@ ignore:
   description: List of patterns to ignore in the import statements
   type: string[]
   default:
-    - "^\\." # relative paths
-    - "^node:" # built-in modules
+    - "^\\." # relative paths (starts with a dot)
+    - "^node:" # built-in modules (prefixed with "node:")
 ```
