@@ -27,6 +27,7 @@ export const options = {
   properties: {
     manifest: manifest,
     typeOnly: { type: "array", items: { type: "string" } },
+    ignore: { type: "array", items: { type: "string", format: "regex" } },
     ...categories,
   },
   additionalProperties: false,

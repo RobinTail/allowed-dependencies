@@ -68,6 +68,7 @@ export default [
           requiredPeers: true,
           optionalPeers: "typeOnly",
           typeOnly: [],
+          ignore: ["^\\.", "^node:"]
            */
         },
       ],
@@ -114,4 +115,11 @@ typeOnly:
   description: Extra packages to allow type only imports
   type: string[]
   default: []
+
+ignore:
+  description: List of patterns to ignore in the import statements
+  type: string[]
+  default:
+    - "^\\." # relative paths (starts with a dot)
+    - "^node:" # built-in modules (prefixed with "node:")
 ```

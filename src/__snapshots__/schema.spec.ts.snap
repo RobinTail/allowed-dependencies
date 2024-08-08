@@ -4,6 +4,13 @@ exports[`Schema options has the required props 1`] = `
 {
   "additionalProperties": false,
   "properties": {
+    "ignore": {
+      "items": {
+        "format": "regex",
+        "type": "string",
+      },
+      "type": "array",
+    },
     "manifest": {
       "properties": {
         "dependencies": {
