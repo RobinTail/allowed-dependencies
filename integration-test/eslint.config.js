@@ -1,8 +1,7 @@
+import { readFileSync } from "node:fs";
 import jsPlugin from "@eslint/js";
 import allowedDepsPlugin from "eslint-plugin-allowed-dependencies";
 import tsPlugin from "typescript-eslint";
-
-import manifest from "./package.json" assert { type: "json" };
 
 export default [
   {
@@ -19,7 +18,7 @@ export default [
       "allowed/dependencies": [
         "error",
         {
-          manifest,
+          manifest: JSON.parse(readFileSync("package.json", "utf8")),
           typeOnly: ["typescript"],
         },
       ],
