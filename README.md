@@ -117,7 +117,7 @@ typeOnly:
   default: []
 
 ignore:
-  description: List of patterns to ignore
+  description: List of patterns to ignore in the import statements
   type: string[]
   default:
     - "^\\." # relative paths
