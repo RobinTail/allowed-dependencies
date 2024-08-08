@@ -26,6 +26,8 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
     ctx,
     [{ manifest, typeOnly = [], ignore = ["^\\.", "^node:"], ...rest }],
   ) => {
+    const isIgnored = (imp: string) =>
+      ignore.some((pattern) => new RegExp(pattern).test(imp));
     const lookup = flip(path)(manifest);
     const isOptional = (name: string) =>
       lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
@@ -47,9 +49,6 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
 
     const [allowed, limited] = [true, "typeOnly" as const].map(take);
     limited.push(...typeOnly);
-
-    const isIgnored = (imp: string) =>
-      ignore.some((entry) => new RegExp(entry).test(imp));
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
