@@ -80,4 +80,6 @@ jobs:
         run: bun run build
       - name: Test
         working-directory: integration-test
-        run: yarn eslint sample.ts --debug
+        run: |
+          yarn
+          yarn eslint sample.ts --debug
