@@ -1,6 +1,6 @@
 import jsPlugin from "@eslint/js";
-import tsPlugin from "typescript-eslint";
 import allowedDepsPlugin from "eslint-plugin-allowed-dependencies";
+import tsPlugin from "typescript-eslint";
 
 import manifest from "./package.json" assert { type: "json" };
 
