@@ -116,6 +116,12 @@ describe("Allowed dependencies", () => {
         options: [{ manifest: {}, typeOnly: ["eslint"] }],
         errors: [{ messageId: "typeOnly" }],
       },
+      {
+        name: "import of built-in module when missing in ignore list",
+        code: `import {} from "node:fs"`,
+        options: [{ manifest: {}, ignore: ["^fancy-\\w+$"] }],
+        errors: [{ messageId: "prohibited" }],
+      },
     ],
   });
 });
