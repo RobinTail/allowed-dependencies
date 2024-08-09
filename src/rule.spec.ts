@@ -1,7 +1,7 @@
 import { afterAll, describe, it } from "bun:test";
 import parser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
-import plugin from "./index.ts";
+import { rule } from "./rule";
 
 RuleTester.afterAll = afterAll;
 RuleTester.describe = describe;
@@ -11,7 +11,7 @@ const tester = new RuleTester({
   languageOptions: { parser },
 });
 
-tester.run("The rule", plugin.rules.dependencies, {
+tester.run("The rule", rule, {
   valid: [
     {
       name: "regular import of prod dependency",
