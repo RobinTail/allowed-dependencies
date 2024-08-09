@@ -1,15 +1,7 @@
-import { afterAll, beforeAll, beforeEach, describe, it, mock } from "bun:test";
+import { afterAll, beforeAll, describe, it, mock } from "bun:test";
 import parser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
 import { rule } from "./rule";
-
-RuleTester.afterAll = afterAll;
-RuleTester.describe = describe;
-RuleTester.it = it;
-
-const tester = new RuleTester({
-  languageOptions: { parser },
-});
 
 const packages = [
   { dependencies: { eslint: "" } },
@@ -35,24 +27,31 @@ const packages = [
   {},
   {},
 ];
-const mockManifest = (function* () {
+
+const manifestGenerator = (function* () {
   for (const manifest of packages) {
     yield manifest;
   }
 })();
 
 const readerMock = mock();
-
 beforeAll(() => {
   mock.module("node:fs", () => ({
     readFileSync: readerMock,
   }));
 });
 
-beforeEach(() => {
-  const result = JSON.stringify(mockManifest.next().value);
-  console.log("mocked package.json", result);
-  readerMock.mockReturnValueOnce(result);
+RuleTester.afterAll = afterAll;
+RuleTester.describe = describe;
+RuleTester.it = (...args: Parameters<typeof it>) => {
+  readerMock.mockReturnValueOnce(
+    JSON.stringify(manifestGenerator.next().value),
+  );
+  it(...args);
+};
+
+const tester = new RuleTester({
+  languageOptions: { parser },
 });
 
 tester.run("dependencies", rule, {
