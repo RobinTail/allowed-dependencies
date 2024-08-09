@@ -83,4 +83,4 @@ jobs:
         run: yarn
       - name: Test
         working-directory: integration-test
-        run: yarn eslint sample.ts --debug
+        run: yarn eslint src/sample.ts --debug
