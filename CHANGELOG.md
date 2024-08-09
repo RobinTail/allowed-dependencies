@@ -2,6 +2,11 @@
 
 ## Version 0
 
+### v0.3.1
+
+- Integration test and this changelog added;
+- Separated the rule from the plugin entrypoint.
+
 ### v0.3.0
 
 - Configurable option `ignore`.
