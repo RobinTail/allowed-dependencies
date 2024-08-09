@@ -8,7 +8,7 @@ describe("Helpers", () => {
       ["eslint/some/path", "eslint"],
       ["@eslint/js", "@eslint/js"],
       ["@eslint/js/some/path", "@eslint/js"],
-    ])("returns the package name", (subj, exp) => {
+    ])("returns the package name for %s", (subj, exp) => {
       expect(getName(subj)).toBe(exp);
     });
   });
