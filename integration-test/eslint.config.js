@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import jsPlugin from "@eslint/js";
 import allowedDepsPlugin from "eslint-plugin-allowed-dependencies";
 import tsPlugin from "typescript-eslint";
