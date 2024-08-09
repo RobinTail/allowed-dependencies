@@ -15,13 +15,7 @@ export default [
   {
     files: ["*.ts"], // implies that "src" only contains the sources
     rules: {
-      "allowed/dependencies": [
-        "error",
-        {
-          manifest: JSON.parse(readFileSync("package.json", "utf8")),
-          typeOnly: ["typescript"],
-        },
-      ],
+      "allowed/dependencies": ["error", { typeOnly: ["typescript"] }],
     },
   },
 ];
