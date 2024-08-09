@@ -12,25 +12,14 @@ const categories = fromPairs(
 );
 export type Category = keyof typeof categories;
 
-const manifest = {
-  type: "object",
-  properties: fromPairs(
-    xprod(
-      ["dependencies", "peerDependencies", "peerDependenciesMeta"] as const,
-      [{ type: "object" } as const],
-    ),
-  ),
-} as const satisfies JSONSchema.JSONSchema4;
-
 export const options = {
   type: "object",
   properties: {
-    manifest: manifest,
+    packageDir: { type: "string" },
     typeOnly: { type: "array", items: { type: "string" } },
     ignore: { type: "array", items: { type: "string", format: "regex" } },
     ...categories,
   },
   additionalProperties: false,
-  required: ["manifest"],
 } as const satisfies JSONSchema.JSONSchema4;
 export type Options = FromSchema<typeof options>;

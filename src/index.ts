@@ -1,6 +1,6 @@
 import { ESLintUtils, type TSESLint } from "@typescript-eslint/utils";
 import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
-import { getName } from "./helpers.ts";
+import {getManifest, getName} from "./helpers.ts";
 import { type Category, type Options, type Value, options } from "./schema.ts";
 
 const messages = {
@@ -9,7 +9,6 @@ const messages = {
 };
 
 const defaults: Options = {
-  manifest: {},
   production: true,
   requiredPeers: true,
   optionalPeers: "typeOnly",
@@ -24,8 +23,9 @@ const theRule = ESLintUtils.RuleCreator.withoutDocs({
   defaultOptions: [defaults],
   create: (
     ctx,
-    [{ manifest, typeOnly = [], ignore = ["^\\.", "^node:"], ...rest }],
+    [{ packageDir = ".", typeOnly = [], ignore = ["^\\.", "^node:"], ...rest }],
   ) => {
+    const manifest = getManifest(packageDir);
     const isIgnored = (imp: string) =>
       ignore.some((pattern) => new RegExp(pattern).test(imp));
     const lookup = flip(path)(manifest);
