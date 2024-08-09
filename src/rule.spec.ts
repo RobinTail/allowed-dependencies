@@ -60,7 +60,6 @@ tester.run("dependencies", rule, {
     {
       name: "regular import of prod dependency",
       code: `import {} from "eslint"`,
-      options: [{}],
     },
     {
       name: "regular import of explicitly enabled prod dependencies",
@@ -70,12 +69,10 @@ tester.run("dependencies", rule, {
     {
       name: "regular import of required peer dependency",
       code: `import {} from "eslint"`,
-      options: [{}],
     },
     {
       name: "type import of optional peer dependency",
       code: `import type {} from "eslint"`,
-      options: [{}],
     },
     {
       name: "type import of unlisted type only dependency",
@@ -85,27 +82,22 @@ tester.run("dependencies", rule, {
     {
       name: "type import of prod dependency",
       code: `import type {} from "eslint"`,
-      options: [{}],
     },
     {
       name: "import a path of prod dependency",
       code: `import {} from "eslint/something/useful.js"`,
-      options: [{}],
     },
     {
       name: "import of scoped required peer dependency",
       code: `import {} from "@eslint/js/something"`,
-      options: [{}],
     },
     {
       name: "import of local path",
       code: `import {} from "./some/path.js"`,
-      options: [{}],
     },
     {
       name: "import of built-in module",
       code: `import { readFileSync } from "node:fs"`,
-      options: [{}],
     },
     {
       name: "import of something explicitly ignored by regex",
@@ -117,7 +109,6 @@ tester.run("dependencies", rule, {
     {
       name: "regular import of unlisted dependency",
       code: `import {} from "eslint"`,
-      options: [{}],
       errors: [{ messageId: "prohibited" }],
     },
     {
@@ -129,7 +120,6 @@ tester.run("dependencies", rule, {
     {
       name: "regular import of optional peer dependency",
       code: `import {} from "eslint"`,
-      options: [{}],
       errors: [{ messageId: "typeOnly" }],
     },
     {
