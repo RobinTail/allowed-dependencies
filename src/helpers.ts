@@ -1,6 +1,6 @@
+import { readFileSync } from "node:fs";
+import { join as joinPath } from "node:path";
 import { flow, join, split, startsWith, take } from "ramda";
-import {join as joinPath} from "node:path";
-import {readFileSync} from "node:fs";
 
 /** is scoped import: starts with "at" */
 const hasScope = startsWith("@");
@@ -9,6 +9,5 @@ const hasScope = startsWith("@");
 export const getName = (imp: string) =>
   flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
 
-export const getManifest = (path: string) => JSON.parse(
-  readFileSync(joinPath(path, "package.json"), "utf8"),
-)
+export const getManifest = (path: string) =>
+  JSON.parse(readFileSync(joinPath(path, "package.json"), "utf8"));
