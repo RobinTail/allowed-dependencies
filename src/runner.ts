@@ -6,19 +6,19 @@ import {
 } from "@typescript-eslint/rule-tester";
 import type { RuleModule } from "@typescript-eslint/utils/ts-eslint";
 
-interface Environment {
-  env?: Record<string, unknown>;
-}
+type Environment = Record<string, unknown>;
 
 interface ValidCase<Options extends readonly unknown[]>
-  extends ValidTestCase<Options>,
-    Environment {}
+  extends ValidTestCase<Options> {
+  env?: Environment;
+}
 
 interface InvalidCase<
   MessageIds extends string,
   Options extends readonly unknown[],
-> extends InvalidTestCase<MessageIds, Options>,
-    Environment {}
+> extends InvalidTestCase<MessageIds, Options> {
+  env?: Environment;
+}
 
 export interface RunTests<
   MessageIds extends string,
@@ -31,7 +31,7 @@ export interface RunTests<
 export class Runner extends RuleTester {
   constructor(
     config?: RuleTesterConfig,
-    protected beforeEach?: (env: Environment["env"]) => void,
+    protected beforeEach?: (env?: Environment) => void,
   ) {
     super(config);
   }
