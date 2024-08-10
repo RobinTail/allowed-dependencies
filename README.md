@@ -79,8 +79,9 @@ Supply the options this way:
 }
 ```
 
-By default, the plugin is configured to check source code: production dependencies and mandatory peers are allowed to
-import, but optional peers are allowed to be imported only as types.
+By default, the plugin is configured for checking the source code based on the `package.json` located in the current
+working directory of the ESLint process. Production dependencies and mandatory peers are allowed to import,
+but optional peers are allowed to be imported only as types.
 
 ```yaml
 packageDir:
