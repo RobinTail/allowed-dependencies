@@ -2,6 +2,11 @@
 
 ## Version 0
 
+### v0.5.0
+
+- Added type declarations;
+- Fixed `module` field in package.
+
 ### v0.4.1
 
 - Improving documentation.
