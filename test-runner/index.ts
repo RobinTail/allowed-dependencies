@@ -1,33 +1,10 @@
 import { afterAll, describe, it } from "bun:test";
 import parser from "@typescript-eslint/parser";
-import {
-  type InvalidTestCase,
-  RuleTester,
-  type ValidTestCase,
-} from "@typescript-eslint/rule-tester";
+import { RuleTester } from "@typescript-eslint/rule-tester";
 import type { RuleModule } from "@typescript-eslint/utils/ts-eslint";
-import { has, mapObjIndexed, partition, values } from "ramda";
-
-type SomeCase<Options extends readonly unknown[], MessageId extends string> =
-  | ValidTestCase<Options>
-  | InvalidTestCase<MessageId, Options>;
-
-type Scenario<
-  Options extends readonly unknown[],
-  MessageId extends string,
-> = SomeCase<Options, MessageId> & { before?: () => void };
-
-const toCase = <Options extends readonly unknown[], MessageId extends string>(
-  { before, ...v }: Scenario<Options, MessageId>,
-  name: string,
-): SomeCase<Options, MessageId> => ({ name, ...v });
-
-const isInvalid = <
-  Options extends readonly unknown[],
-  MessageId extends string,
->(
-  entry: SomeCase<Options, MessageId>,
-): entry is InvalidTestCase<MessageId, Options> => has("errors", entry);
+import { mapObjIndexed, partition, values } from "ramda";
+import { isInvalid, toCase } from "./helpers.ts";
+import type { Scenario } from "./types.ts";
 
 export class Runner<
   Options extends readonly unknown[],
