@@ -24,7 +24,14 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
   defaultOptions: [defaults],
   create: (
     ctx,
-    [{ packageDir = ".", typeOnly = [], ignore = ["^\\.", "^node:"], ...rest }],
+    [
+      {
+        packageDir = ctx.cwd,
+        typeOnly = [],
+        ignore = ["^\\.", "^node:"],
+        ...rest
+      },
+    ],
   ) => {
     const manifest = getManifest(packageDir);
     const isIgnored = (imp: string) =>
