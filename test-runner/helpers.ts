@@ -5,7 +5,7 @@ const caseFromScenario = <
   Options extends readonly unknown[],
   MessageId extends string,
 >(
-  { before, ...rest }: Scenario<Options, MessageId>,
+  { setup, ...rest }: Scenario<Options, MessageId>,
   name: string,
 ): SomeCase<Options, MessageId> => ({ name, ...rest });
 

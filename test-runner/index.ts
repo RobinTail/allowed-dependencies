@@ -18,8 +18,8 @@ export class Runner<
     RuleTester.afterAll = afterAll;
     RuleTester.describe = describe;
     RuleTester.it = (...[name, ...rest]: Parameters<typeof it>) => {
-      const { before } = scenarios[name];
-      before?.();
+      const { setup } = scenarios[name];
+      setup?.();
       it(name, ...rest);
     };
   }
