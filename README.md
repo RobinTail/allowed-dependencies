@@ -11,6 +11,23 @@ Suggested to be used for source code, to prevent importing packages that are not
 The plugin distinguishes between production dependencies, mandatory and optional peers in your `package.json`.
 The import syntax also matters: regular `import` or `import type` (excluded from distributable javascript code).
 
+## Demo
+
+```json5
+// package.json
+{
+  devDependencies: { typescript: "^5" },
+  peerDependencies: { prettier: "^3" },
+  peerDependenciesMeta: { prettier: { optional: true } },
+}
+```
+
+```typescript
+// src/index.ts
+import { factory } from "typescript"; // Error: Importing typescript is not allowed.
+import { format } from "prettier"; // Error: Only 'import type' syntax is allowed for prettier.
+```
+
 ## Relationships and differences
 
 - Unlike `@typescript-eslint/no-restricted-imports` rule, it allows you to configure what can be imported, and not what

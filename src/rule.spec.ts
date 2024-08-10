@@ -96,4 +96,14 @@ new Runner("dependencies", rule, {
     before: () => mockEnv({}),
     errors: [{ messageId: "prohibited" }],
   },
+  demo: {
+    code: `import {factory} from "typescript"; import {format} from "prettier";`,
+    before: () =>
+      mockEnv({
+        devDependencies: { typescript: "^5" },
+        peerDependencies: { prettier: "^3" },
+        peerDependenciesMeta: { prettier: { optional: true } },
+      }),
+    errors: [{ messageId: "prohibited" }, { messageId: "typeOnly" }],
+  },
 }).run();
