@@ -1,5 +1,10 @@
 # ESLint plugin Allowed Dependencies
 
+[![Coverage Status](https://coveralls.io/repos/github/RobinTail/allowed-dependencies/badge.svg)](https://coveralls.io/github/RobinTail/allowed-dependencies)
+![License](https://img.shields.io/npm/l/eslint-plugin-allowed-dependencies.svg?color=green25)
+![npm release](https://img.shields.io/npm/v/eslint-plugin-allowed-dependencies.svg?color=green25&label=latest)
+![downloads](https://img.shields.io/npm/dw/eslint-plugin-allowed-dependencies.svg)
+
 ESLint plugin for restricting imports to package dependency categories.
 Suggested to be used for source code, to prevent importing packages that are not present in the distribution.
 
