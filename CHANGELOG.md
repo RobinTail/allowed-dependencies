@@ -2,6 +2,10 @@
 
 ## Version 0
 
+### v0.4.1
+
+- Improving documentation.
+
 ### v0.4.0
 
 - Breaking changes:
