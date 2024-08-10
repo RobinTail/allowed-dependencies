@@ -125,3 +125,24 @@ ignore:
     - "^\\." # relative paths (starts with a dot)
     - "^node:" # built-in modules (prefixed with "node:")
 ```
+
+## packageDir option
+
+If you're using workspaces or somehow running ESLint from different locations, you'd need an absolute path:
+
+```javascript
+// for CommonJS:
+const options = {
+  packageDir: __dirname,
+};
+```
+
+```javascript
+// for ESM:
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const options = {
+  packageDir: dirname(fileURLToPath(import.meta.url)),
+};
+```
