@@ -37,16 +37,6 @@ import jsPlugin from "@eslint/js";
 import tsPlugin from "typescript-eslint";
 import allowedDepsPlugin from "eslint-plugin-allowed-dependencies";
 
-// For Node 18 and 20:
-import manifest from "./package.json" assert { type: "json" };
-
-// For Node 22:
-// import manifest from "./package.json" with { type: "json" };
-
-// For all those versions and the environments having no JSON import support:
-// import { readFileSync } from "node:fs";
-// const manifest = JSON.parse(readFileSync("./package.json", "utf8"));
-
 export default [
   {
     plugins: {
@@ -59,19 +49,7 @@ export default [
   {
     files: ["src/**/*.ts"], // implies that "src" only contains the sources
     rules: {
-      "allowed/dependencies": [
-        "error",
-        {
-          manifest, // these are defaults:
-          /*
-          production: true,
-          requiredPeers: true,
-          optionalPeers: "typeOnly",
-          typeOnly: [],
-          ignore: ["^\\.", "^node:"]
-           */
-        },
-      ],
+      "allowed/dependencies": "error",
     },
   },
 ];
@@ -81,14 +59,34 @@ export default [
 
 ## Options
 
+Supply the options this way:
+
+```json5
+{
+  rules: {
+    "allowed/dependencies": [
+      "error", // these are defaults:
+      {
+        packageDir: ".",
+        production: true,
+        requiredPeers: true,
+        optionalPeers: "typeOnly",
+        typeOnly: [],
+        ignore: ["^\\.", "^node:"],
+      },
+    ],
+  },
+}
+```
+
 By default, the plugin is configured to check source code: production dependencies and mandatory peers are allowed to
 import, but optional peers are allowed to be imported only as types.
 
 ```yaml
-manifest:
-  description: Your package.json data, required
-  type: object
-  required: true
+packageDir:
+  description: The path having your package.json
+  type: string
+  default: ctx.cwd # ESLint process.cwd()
 
 production:
   description: Allow importing the packages listed in manifest.dependencies
