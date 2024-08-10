@@ -2,8 +2,8 @@ import { afterAll, describe, it } from "bun:test";
 import parser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
 import type { RuleModule } from "@typescript-eslint/utils/ts-eslint";
-import { mapObjIndexed, partition, values } from "ramda";
-import { isInvalid, toCase } from "./helpers.ts";
+import { partition, values } from "ramda";
+import { isInvalid, toCases } from "./helpers.ts";
 import type { Scenario } from "./types.ts";
 
 export class Runner<
@@ -27,7 +27,7 @@ export class Runner<
   public run() {
     const tester = new RuleTester({ languageOptions: { parser } });
 
-    const cases = values(mapObjIndexed(toCase, this.scenarios));
+    const cases = values(toCases(this.scenarios));
     const [invalid, valid] = partition(isInvalid, cases);
 
     tester.run(this.title, this.ruleModule, { valid, invalid });
