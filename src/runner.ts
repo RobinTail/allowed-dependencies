@@ -37,14 +37,13 @@ export class Runner<
     const [valid, invalid] = Object.keys(this.scenarios).reduce<
       [ValidTestCase<Options>[], InvalidTestCase<MessageId, Options>[]]
     >(
-      ([a, b], name) => {
+      ([withoutErrors, withErrors], name) => {
         const { before, ...scenario } = this.scenarios[name];
-        const hasErrors = "errors" in scenario;
-        (hasErrors ? b : a).push({
+        ("errors" in scenario ? withErrors : withoutErrors).push({
           name,
           ...scenario,
         });
-        return [a, b];
+        return [withoutErrors, withErrors];
       },
       [[], []],
     );
