@@ -10,7 +10,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: false,
   clean: true,
-  dts: false,
+  dts: true,
   minify: true,
   target: `node${minNode.major}.${minNode.minor}.${minNode.patch}`,
   cjsInterop: true,

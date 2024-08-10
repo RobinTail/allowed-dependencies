@@ -2,14 +2,20 @@
   "name": "eslint-plugin-allowed-dependencies",
   "description": "ESLint plugin Allowed Dependencies",
   "version": "0.4.1",
-  "module": "src/index.ts",
   "type": "module",
+  "module": "dist/index.js",
   "main": "dist/index.cjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.cts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "license": "MIT",
@@ -27,7 +33,7 @@
     "*.md"
   ],
   "scripts": {
-    "build": "bun run tsup",
+    "build": "bun run tsup && attw --pack",
     "lint": "bun run biome check",
     "test": "tsc --noEmit && bun test src",
     "mdfix": "bunx --bun prettier *.md --write",
@@ -38,6 +44,7 @@
     "ramda": "^0.30.1"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.4",
     "@biomejs/biome": "1.8.3",
     "@tsconfig/bun": "^1.0.7",
     "@types/bun": "latest",
