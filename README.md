@@ -13,17 +13,19 @@ The import syntax also matters: regular `import` or `import type` (excluded from
 
 ## Demo
 
-```json5
+```jsonc
 // package.json
 {
-  devDependencies: { typescript: "^5" },
-  peerDependencies: { prettier: "^3" },
-  peerDependenciesMeta: { prettier: { optional: true } },
+  "dependencies": { "express-zod-api": "^20" },
+  "devDependencies": { "typescript": "^5" },
+  "peerDependencies": { "prettier": "^3" },
+  "peerDependenciesMeta": { "prettier": { "optional": true } },
 }
 ```
 
 ```typescript
 // src/index.ts
+import { createServer } from "express-zod-api"; // OK
 import { factory } from "typescript"; // Error: Importing typescript is not allowed.
 import { format } from "prettier"; // Error: Only 'import type' syntax is allowed for prettier.
 ```
