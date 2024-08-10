@@ -10,9 +10,9 @@ export const toCase = <
   name: string,
 ): SomeCase<Options, MessageId> => ({ name, ...rest });
 
-export const isInvalid = <
+export const isInvalid = has("errors") as <
   Options extends readonly unknown[],
   MessageId extends string,
 >(
-  entry: SomeCase<Options, MessageId>,
-): entry is InvalidTestCase<MessageId, Options> => has("errors", entry);
+  subject: SomeCase<Options, MessageId>,
+) => subject is InvalidTestCase<MessageId, Options>;
