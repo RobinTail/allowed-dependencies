@@ -1,6 +1,6 @@
 import { beforeAll, mock } from "bun:test";
+import { Runner } from "../tools/runner.ts";
 import { rule } from "./rule";
-import { Runner } from "./runner.ts";
 
 const readerMock = mock();
 beforeAll(() => {
