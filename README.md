@@ -29,8 +29,6 @@ yarn add --dev eslint-plugin-allowed-dependencies
 
 ## Setup
 
-Example of plugin setup and different ways to provide `package.json` data to it:
-
 ```javascript
 // eslint.config.js or .mjs if you're developing in CommonJS environment
 import jsPlugin from "@eslint/js";
