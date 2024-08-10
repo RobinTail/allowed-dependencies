@@ -15,17 +15,12 @@ type SomeCase<Options extends readonly unknown[], MessageId extends string> =
 type Scenario<
   Options extends readonly unknown[],
   MessageId extends string,
-> = SomeCase<Options, MessageId> & {
-  before?: () => void;
-};
+> = SomeCase<Options, MessageId> & { before?: () => void };
 
 const toCase = <Options extends readonly unknown[], MessageId extends string>(
   { before, ...v }: Scenario<Options, MessageId>,
   name: string,
-): SomeCase<Options, MessageId> => ({
-  name,
-  ...v,
-});
+): SomeCase<Options, MessageId> => ({ name, ...v });
 
 const isInvalid = <
   Options extends readonly unknown[],
@@ -53,9 +48,7 @@ export class Runner<
   }
 
   public run() {
-    const tester = new RuleTester({
-      languageOptions: { parser },
-    });
+    const tester = new RuleTester({ languageOptions: { parser } });
 
     const cases = values(mapObjIndexed(toCase, this.scenarios));
     const [invalid, valid] = partition(isInvalid, cases);
