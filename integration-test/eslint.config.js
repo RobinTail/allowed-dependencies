@@ -12,7 +12,7 @@ export default [
   ...tsPlugin.configs.recommended,
   // For the sources:
   {
-    files: ["src/*.ts"], // implies that "src" only contains the sources
+    files: ["src/*.ts"],
     rules: {
       "allowed/dependencies": ["error", { typeOnly: ["typescript"] }],
     },
