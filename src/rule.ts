@@ -7,7 +7,6 @@ const messages = {
   prohibited: "Importing {{name}} is not allowed.",
   typeOnly: "Only 'import type' syntax is allowed for {{name}}.",
 };
-export type MessageId = keyof typeof messages;
 
 const defaults: Options = {
   production: true,
