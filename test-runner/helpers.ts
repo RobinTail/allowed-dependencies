@@ -6,9 +6,9 @@ export const toCase = <
   Options extends readonly unknown[],
   MessageId extends string,
 >(
-  { before, ...v }: Scenario<Options, MessageId>,
+  { before, ...rest }: Scenario<Options, MessageId>,
   name: string,
-): SomeCase<Options, MessageId> => ({ name, ...v });
+): SomeCase<Options, MessageId> => ({ name, ...rest });
 
 export const isInvalid = <
   Options extends readonly unknown[],
