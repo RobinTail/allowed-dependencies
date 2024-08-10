@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import jsPlugin from "@eslint/js";
 import allowedDepsPlugin from "eslint-plugin-allowed-dependencies";
 import tsPlugin from "typescript-eslint";
@@ -13,15 +12,9 @@ export default [
   ...tsPlugin.configs.recommended,
   // For the sources:
   {
-    files: ["*.ts"], // implies that "src" only contains the sources
+    files: ["src/*.ts"],
     rules: {
-      "allowed/dependencies": [
-        "error",
-        {
-          manifest: JSON.parse(readFileSync("package.json", "utf8")),
-          typeOnly: ["typescript"],
-        },
-      ],
+      "allowed/dependencies": ["error", { typeOnly: ["typescript"] }],
     },
   },
 ];

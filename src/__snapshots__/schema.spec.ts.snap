@@ -11,20 +11,6 @@ exports[`Schema options has the required props 1`] = `
       },
       "type": "array",
     },
-    "manifest": {
-      "properties": {
-        "dependencies": {
-          "type": "object",
-        },
-        "peerDependencies": {
-          "type": "object",
-        },
-        "peerDependenciesMeta": {
-          "type": "object",
-        },
-      },
-      "type": "object",
-    },
     "optionalPeers": {
       "oneOf": [
         {
@@ -37,6 +23,9 @@ exports[`Schema options has the required props 1`] = `
           "type": "string",
         },
       ],
+    },
+    "packageDir": {
+      "type": "string",
     },
     "production": {
       "oneOf": [
@@ -71,9 +60,6 @@ exports[`Schema options has the required props 1`] = `
       "type": "array",
     },
   },
-  "required": [
-    "manifest",
-  ],
   "type": "object",
 }
 `;

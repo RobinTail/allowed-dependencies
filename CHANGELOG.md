@@ -2,6 +2,14 @@
 
 ## Version 0
 
+### v0.4.0
+
+- Breaking changes:
+  - The `manifest` option replaced with `packageDir` (string, optional);
+    - The default value is the ESLint `process.cwd()`;
+    - The plugin can now read the `package.json` itself;
+    - The plugin can now operate without options.
+
 ### v0.3.1
 
 - Integration test and this changelog added;

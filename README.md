@@ -29,23 +29,11 @@ yarn add --dev eslint-plugin-allowed-dependencies
 
 ## Setup
 
-Example of plugin setup and different ways to provide `package.json` data to it:
-
 ```javascript
 // eslint.config.js or .mjs if you're developing in CommonJS environment
 import jsPlugin from "@eslint/js";
 import tsPlugin from "typescript-eslint";
 import allowedDepsPlugin from "eslint-plugin-allowed-dependencies";
-
-// For Node 18 and 20:
-import manifest from "./package.json" assert { type: "json" };
-
-// For Node 22:
-// import manifest from "./package.json" with { type: "json" };
-
-// For all those versions and the environments having no JSON import support:
-// import { readFileSync } from "node:fs";
-// const manifest = JSON.parse(readFileSync("./package.json", "utf8"));
 
 export default [
   {
@@ -59,21 +47,14 @@ export default [
   {
     files: ["src/**/*.ts"], // implies that "src" only contains the sources
     rules: {
-      "allowed/dependencies": [
-        "error",
-        {
-          manifest, // these are defaults:
-          /*
-          production: true,
-          requiredPeers: true,
-          optionalPeers: "typeOnly",
-          typeOnly: [],
-          ignore: ["^\\.", "^node:"]
-           */
-        },
-      ],
+      "allowed/dependencies": "error",
     },
   },
+  // In case "src" also contains tests:
+  // {
+  //  files: ["src/**/*.spec.ts"], // exclude test files
+  //  rules: { "allowed/dependencies": "off" },
+  // },
 ];
 ```
 
@@ -81,14 +62,35 @@ export default [
 
 ## Options
 
-By default, the plugin is configured to check source code: production dependencies and mandatory peers are allowed to
-import, but optional peers are allowed to be imported only as types.
+Supply the options this way:
+
+```json5
+{
+  rules: {
+    "allowed/dependencies": [
+      "error", // these are defaults:
+      {
+        packageDir: ".",
+        production: true,
+        requiredPeers: true,
+        optionalPeers: "typeOnly",
+        typeOnly: [],
+        ignore: ["^\\.", "^node:"],
+      },
+    ],
+  },
+}
+```
+
+By default, the plugin is configured for checking the source code based on the `package.json` located in the current
+working directory of the ESLint process. Production dependencies and mandatory peers are allowed to import,
+but optional peers are allowed to be imported only as types.
 
 ```yaml
-manifest:
-  description: Your package.json data, required
-  type: object
-  required: true
+packageDir:
+  description: The path having your package.json
+  type: string
+  default: ctx.cwd # ESLint process.cwd()
 
 production:
   description: Allow importing the packages listed in manifest.dependencies
@@ -122,4 +124,25 @@ ignore:
   default:
     - "^\\." # relative paths (starts with a dot)
     - "^node:" # built-in modules (prefixed with "node:")
+```
+
+## packageDir option
+
+If you're using workspaces or somehow running ESLint from different locations, you'd need an absolute path:
+
+```javascript
+// for CommonJS:
+const options = {
+  packageDir: __dirname,
+};
+```
+
+```javascript
+// for ESM:
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+
+const options = {
+  packageDir: dirname(fileURLToPath(import.meta.url)),
+};
 ```
