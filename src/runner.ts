@@ -47,6 +47,6 @@ export class Runner<
       },
       [[], []],
     );
-    tester.run("dependencies", this.ruleModule, { valid, invalid });
+    tester.run(this.title, this.ruleModule, { valid, invalid });
   }
 }
