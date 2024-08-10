@@ -26,6 +26,8 @@ The import syntax also matters: regular `import` or `import type` (excluded from
 ```typescript
 // src/index.ts
 import { createServer } from "express-zod-api"; // OK
+import { join } from "node:fs"; // OK
+import { helper } from "./tools"; // OK
 import { factory } from "typescript"; // Error: Importing typescript is not allowed.
 import { format } from "prettier"; // Error: Only 'import type' syntax is allowed for prettier.
 ```
