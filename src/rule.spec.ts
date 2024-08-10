@@ -1,13 +1,11 @@
-import { beforeAll, mock } from "bun:test";
+import { mock } from "bun:test";
 import { Runner } from "../test-runner";
 import { rule } from "./rule";
 
 const readerMock = mock();
-beforeAll(() => {
-  mock.module("node:fs", () => ({
-    readFileSync: readerMock,
-  }));
-});
+mock.module("node:fs", () => ({
+  readFileSync: readerMock,
+}));
 
 const mockEnv = (env: object) =>
   readerMock.mockReturnValueOnce(JSON.stringify(env));
