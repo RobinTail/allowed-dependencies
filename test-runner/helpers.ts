@@ -1,4 +1,3 @@
-import type { InvalidTestCase } from "@typescript-eslint/rule-tester";
 import { has } from "ramda";
 import type { Scenario, SomeCase } from "./types.ts";
 
@@ -15,4 +14,4 @@ export const isInvalid = has("errors") as <
   MessageId extends string,
 >(
   subject: SomeCase<Options, MessageId>,
-) => subject is InvalidTestCase<MessageId, Options>;
+) => subject is Extract<typeof subject, { errors: unknown[] }>;
