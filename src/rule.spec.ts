@@ -1,12 +1,6 @@
-import { afterAll, beforeAll, describe, it, mock } from "bun:test";
-import parser from "@typescript-eslint/parser";
-import {
-  type InvalidTestCase,
-  RuleTester,
-  type ValidTestCase,
-} from "@typescript-eslint/rule-tester";
-import { type MessageId, rule } from "./rule";
-import type { Options } from "./schema.ts";
+import { beforeAll, mock } from "bun:test";
+import { rule } from "./rule";
+import { Runner } from "./runner.ts";
 
 const readerMock = mock();
 beforeAll(() => {
@@ -18,15 +12,7 @@ beforeAll(() => {
 const mockEnv = (env: object) =>
   readerMock.mockReturnValueOnce(JSON.stringify(env));
 
-const scenarios: Record<
-  string,
-  {
-    code: string;
-    before?: () => void;
-    options?: [Options];
-    errors?: [{ messageId: MessageId }];
-  }
-> = {
+new Runner("dependencies", rule, {
   // Valid
   "regular import of prod dependency": {
     code: `import {} from "eslint"`,
@@ -112,33 +98,4 @@ const scenarios: Record<
     before: () => mockEnv({}),
     errors: [{ messageId: "prohibited" }],
   },
-};
-
-RuleTester.afterAll = afterAll;
-RuleTester.describe = describe;
-RuleTester.it = (...args: Parameters<typeof it>) => {
-  const { before } = scenarios[args[0]];
-  before?.();
-  it(...args);
-};
-
-const tester = new RuleTester({
-  languageOptions: { parser },
-});
-
-const [valid, invalid] = Object.keys(scenarios).reduce<
-  [ValidTestCase<[Options]>[], InvalidTestCase<MessageId, [Options]>[]]
->(
-  ([a, b], name) => {
-    const { before, ...scenario } = scenarios[name];
-    const hasErrors = "errors" in scenario;
-    (hasErrors ? b : a).push({
-      name,
-      ...scenario,
-    });
-    return [a, b];
-  },
-  [[], []],
-);
-
-tester.run("dependencies", rule, { valid, invalid });
+}).run();
