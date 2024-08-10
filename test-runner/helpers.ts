@@ -14,4 +14,4 @@ export const isInvalid = has("errors") as <
   MessageId extends string,
 >(
   subject: SomeCase<Options, MessageId>,
-) => subject is Extract<typeof subject, { errors: unknown[] }>;
+) => subject is Extract<typeof subject, { errors: unknown }>;
