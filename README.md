@@ -52,6 +52,11 @@ export default [
       "allowed/dependencies": "error",
     },
   },
+  // In case "src" also contains tests:
+  // {
+  //  files: ["src/**/*.spec.ts"], // exclude test files
+  //  rules: { "allowed/dependencies": "off" },
+  // },
 ];
 ```
 
