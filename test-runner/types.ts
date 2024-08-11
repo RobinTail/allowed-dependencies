@@ -11,4 +11,4 @@ export type SomeCase<
 export type Scenario<
   Options extends readonly unknown[],
   MessageId extends string,
-> = SomeCase<Options, MessageId> & { before?: () => void };
+> = SomeCase<Options, MessageId> & { setup?: () => void };
