@@ -9,10 +9,5 @@ const hasScope = startsWith("@");
 export const getName = (imp: string) =>
   flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
 
-export const getManifest = (path: string) => {
-  const name = joinPath(path, "package.json");
-  console.log(name);
-  const raw = readFileSync(name, "utf8");
-  console.log(raw);
-  return JSON.parse(raw);
-};
+export const getManifest = (path: string) =>
+  JSON.parse(readFileSync(joinPath(path, "package.json"), "utf8"));
