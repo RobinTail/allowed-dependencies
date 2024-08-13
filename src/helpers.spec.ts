@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import { getName } from "./helpers.ts";
+import { describe, expect, it } from "vitest";
+import { getName } from "./helpers";
 
 describe("Helpers", () => {
   describe("getName()", () => {

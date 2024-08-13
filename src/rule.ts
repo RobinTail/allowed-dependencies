@@ -1,7 +1,7 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
-import { getManifest, getName } from "./helpers.ts";
-import { type Category, type Options, type Value, options } from "./schema.ts";
+import { getManifest, getName } from "./helpers";
+import { type Category, type Options, type Value, options } from "./schema";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",

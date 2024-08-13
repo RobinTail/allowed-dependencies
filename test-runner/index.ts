@@ -1,10 +1,10 @@
-import { afterAll, describe, it } from "bun:test";
 import parser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
 import type { RuleModule } from "@typescript-eslint/utils/ts-eslint";
 import { partition, values } from "ramda";
-import { isInvalid, toCases } from "./helpers.ts";
-import type { Scenario } from "./types.ts";
+import { afterAll, describe, it } from "vitest";
+import { isInvalid, toCases } from "./helpers";
+import type { Scenario } from "./types";
 
 export class Runner<
   Options extends readonly unknown[],
@@ -17,7 +17,7 @@ export class Runner<
   ) {
     RuleTester.afterAll = afterAll;
     RuleTester.describe = describe;
-    RuleTester.it = (...[name, ...rest]: Parameters<typeof it>) => {
+    RuleTester.it = (name, ...rest) => {
       const { setup } = scenarios[name];
       setup?.();
       it(name, ...rest);
