@@ -15,7 +15,6 @@ describe("Helpers", () => {
   });
 
   describe("getManifest()", () => {
-    console.log(process.cwd());
     expect(getManifest(process.cwd())).toEqual(manifest);
   });
 });
