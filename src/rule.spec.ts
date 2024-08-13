@@ -11,7 +11,7 @@ const makeSetup = (env: object) => () =>
   readerMock.mockReturnValueOnce(JSON.stringify(env));
 
 afterAll(() => {
-  readerMock.mockReturnValue("still mocked");
+  mock.restore();
 });
 
 new Runner("dependencies", rule, {
