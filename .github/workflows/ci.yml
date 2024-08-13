@@ -14,26 +14,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - name: Get bun cache dir and hash
-        id: bunCache
-        run: |
-          echo "dir=$(bun pm cache)" >> $GITHUB_OUTPUT
-          echo "hash=$(bun pm hash)" >> $GITHUB_OUTPUT
+      - name: Get yarn cache dir
+        id: yarnCache
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Cache node modules
         uses: actions/cache@v4
         with:
-          path: ${{ steps.bunCache.outputs.dir }}
-          key: ${{ runner.os }}-build-cache-bun-${{ steps.bunCache.outputs.hash }}
+          path: ${{ steps.yarnCache.outputs.dir }}
+          key: ${{ runner.os }}-build-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
-        run: bun install
+        run: yarn install
       - name: Testing
         run: |
-          bun run lint
-          bun run test
+          yarn lint
+          yarn test
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         continue-on-error: true
@@ -55,24 +49,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - name: Get bun cache dir and hash
-        id: bunCache
-        run: |
-          echo "dir=$(bun pm cache)" >> $GITHUB_OUTPUT
-          echo "hash=$(bun pm hash)" >> $GITHUB_OUTPUT
+      - name: Get yarn cache dir
+        id: yarnCache
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Cache node modules
         uses: actions/cache@v4
         with:
-          path: ${{ steps.bunCache.outputs.dir }}
-          key: ${{ runner.os }}-build-cache-bun-${{ steps.bunCache.outputs.hash }}
+          path: ${{ steps.yarnCache.outputs.dir }}
+          key: ${{ runner.os }}-build-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
-        run: bun install
+        run: yarn install
       - name: Build
-        run: bun run build
+        run: yarn build
       - name: Install Node.js ${{ matrix.node-version }}
         id: setup-node
         uses: actions/setup-node@v4
