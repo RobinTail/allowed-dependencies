@@ -1,4 +1,4 @@
-import { afterAll, describe, it, mock } from "bun:test";
+import { afterAll, describe, it } from "bun:test";
 import parser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
 import type { RuleModule } from "@typescript-eslint/utils/ts-eslint";
@@ -15,10 +15,7 @@ export class Runner<
     protected ruleModule: RuleModule<MessageId, Options>,
     protected scenarios: Record<string, Scenario<Options, MessageId>>,
   ) {
-    RuleTester.afterAll = (...args: Parameters<typeof afterAll>) => {
-      mock.restore();
-      afterAll(...args);
-    };
+    RuleTester.afterAll = afterAll;
     RuleTester.describe = describe;
     RuleTester.it = (...[name, ...rest]: Parameters<typeof it>) => {
       const { setup } = scenarios[name];

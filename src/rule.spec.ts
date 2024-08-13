@@ -1,4 +1,4 @@
-import { mock } from "bun:test";
+import { afterAll, mock } from "bun:test";
 import { Runner } from "../test-runner";
 import { rule } from "./rule";
 
@@ -9,6 +9,10 @@ mock.module("node:fs", () => ({
 
 const makeSetup = (env: object) => () =>
   readerMock.mockReturnValueOnce(JSON.stringify(env));
+
+afterAll(() => {
+  readerMock.mockReturnValue("still mocked");
+});
 
 new Runner("dependencies", rule, {
   // Valid
