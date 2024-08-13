@@ -35,7 +35,7 @@
   "scripts": {
     "build": "tsup && attw --pack",
     "lint": "biome check",
-    "test": "tsc --noEmit && vitest --run src",
+    "test": "tsc --noEmit && vitest --run --coverage src",
     "mdfix": "prettier *.md --write",
     "postversion": "git push && git push --tags",
     "prepublishOnly": "yarn lint && yarn test && yarn build"
@@ -52,6 +52,7 @@
     "@types/ramda": "^0.30.1",
     "@types/semver": "^7.5.8",
     "@typescript-eslint/rule-tester": "^8.1.0",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "eslint": "^9.9.0",
     "json-schema-to-ts": "^3.1.0",
     "prettier": "^3.3.3",
