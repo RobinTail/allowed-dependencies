@@ -104,3 +104,5 @@ new Runner("dependencies", rule, {
     errors: [{ messageId: "prohibited" }, { messageId: "typeOnly" }],
   },
 }).run();
+
+mock.restore();
