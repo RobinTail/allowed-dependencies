@@ -17,7 +17,7 @@ export class Runner<
   ) {
     RuleTester.afterAll = afterAll;
     RuleTester.describe = describe;
-    RuleTester.it = (...[name, ...rest]: Parameters<typeof it>) => {
+    RuleTester.it = (name, ...rest) => {
       const { setup } = scenarios[name];
       setup?.();
       it(name, ...rest);
