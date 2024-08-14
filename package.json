@@ -35,7 +35,8 @@
   "scripts": {
     "build": "bun run tsup && attw --pack",
     "lint": "bun run biome check",
-    "test": "tsc --noEmit && bun test src",
+    "pretest": "tsc --noEmit",
+    "test": "bun test src",
     "mdfix": "bunx --bun prettier *.md --write",
     "postversion": "git push && git push --tags",
     "prepublishOnly": "bun run lint && bun run test && bun run build"
