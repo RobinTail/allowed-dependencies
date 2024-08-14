@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import manifest from "../package.json";
+import { readerMock } from "../mocks/fs.ts";
 import { getManifest, getName } from "./helpers.ts";
 
 describe("Helpers", () => {
@@ -15,7 +15,9 @@ describe("Helpers", () => {
   });
 
   describe("getManifest()", () => {
-    console.log(process.cwd());
-    expect(getManifest(process.cwd())).toEqual(manifest);
+    const sample = { name: "expected" };
+    readerMock.mockReturnValueOnce(JSON.stringify(sample));
+    expect(getManifest(".")).toEqual(sample);
+    expect(readerMock).toHaveBeenCalledWith("package.json", "utf8");
   });
 });
