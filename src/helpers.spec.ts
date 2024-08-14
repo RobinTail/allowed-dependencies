@@ -15,9 +15,11 @@ describe("Helpers", () => {
   });
 
   describe("getManifest()", () => {
-    const sample = { name: "expected" };
-    readerMock.mockReturnValueOnce(JSON.stringify(sample));
-    expect(getManifest("./some/dir")).toEqual(sample);
-    expect(readerMock).toHaveBeenCalledWith("some/dir/package.json", "utf8");
+    it("should read the package.json from the specified path", () => {
+      const sample = { name: "expected" };
+      readerMock.mockReturnValueOnce(JSON.stringify(sample));
+      expect(getManifest("./some/dir")).toEqual(sample);
+      expect(readerMock).toHaveBeenCalledWith("some/dir/package.json", "utf8");
+    });
   });
 });
