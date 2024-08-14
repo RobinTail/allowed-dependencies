@@ -2,6 +2,11 @@
 
 ## Version 0
 
+### v0.5.1
+
+- Minor refactoring;
+- Additional tests.
+
 ### v0.5.0
 
 - Added type declarations;
