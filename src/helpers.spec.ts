@@ -17,7 +17,7 @@ describe("Helpers", () => {
   describe("getManifest()", () => {
     const sample = { name: "expected" };
     readerMock.mockReturnValueOnce(JSON.stringify(sample));
-    expect(getManifest(".")).toEqual(sample);
-    expect(readerMock).toHaveBeenCalledWith("package.json", "utf8");
+    expect(getManifest("./some/dir")).toEqual(sample);
+    expect(readerMock).toHaveBeenCalledWith("some/dir/package.json", "utf8");
   });
 });
