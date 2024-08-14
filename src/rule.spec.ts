@@ -1,11 +1,6 @@
-import { mock } from "bun:test";
+import { readerMock } from "../mocks/fs.ts";
 import { Runner } from "../test-runner";
 import { rule } from "./rule";
-
-const readerMock = mock();
-mock.module("node:fs", () => ({
-  readFileSync: readerMock,
-}));
 
 const makeSetup = (env: object) => () =>
   readerMock.mockReturnValueOnce(JSON.stringify(env));

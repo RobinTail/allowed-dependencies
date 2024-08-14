@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { getName } from "./helpers.ts";
+import { readerMock } from "../mocks/fs.ts";
+import { getManifest, getName } from "./helpers.ts";
 
 describe("Helpers", () => {
   describe("getName()", () => {
@@ -11,5 +12,12 @@ describe("Helpers", () => {
     ])("returns the package name for %s", (subj, exp) => {
       expect(getName(subj)).toBe(exp);
     });
+  });
+
+  describe("getManifest()", () => {
+    const sample = { name: "expected" };
+    readerMock.mockReturnValueOnce(JSON.stringify(sample));
+    expect(getManifest("./some/dir")).toEqual(sample);
+    expect(readerMock).toHaveBeenCalledWith("some/dir/package.json", "utf8");
   });
 });
