@@ -1,9 +1,16 @@
+import { afterAll } from "bun:test";
 import { readerMock } from "../mocks/fs.ts";
 import { Runner } from "../test-runner";
 import { rule } from "./rule";
 
 const makeSetup = (env: object) => () =>
   readerMock.mockReturnValueOnce(JSON.stringify(env));
+
+afterAll(() => {
+  // biome-ignore lint/performance/noDelete: <explanation>
+  // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+  delete require.cache["fs"];
+});
 
 new Runner("dependencies", rule, {
   // Valid

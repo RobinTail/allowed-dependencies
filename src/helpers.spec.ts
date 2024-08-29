@@ -1,5 +1,4 @@
 import { describe, expect, it } from "bun:test";
-import { readerMock } from "../mocks/fs.ts";
 import { getManifest, getName } from "./helpers.ts";
 
 describe("Helpers", () => {
@@ -16,10 +15,10 @@ describe("Helpers", () => {
 
   describe("getManifest()", () => {
     it("should read the package.json from the specified path", () => {
-      const sample = { name: "expected" };
-      readerMock.mockReturnValueOnce(JSON.stringify(sample));
-      expect(getManifest("./some/dir")).toEqual(sample);
-      expect(readerMock).toHaveBeenCalledWith("some/dir/package.json", "utf8");
+      expect(getManifest(process.cwd())).toHaveProperty(
+        "name",
+        "eslint-plugin-allowed-dependencies",
+      );
     });
   });
 });
