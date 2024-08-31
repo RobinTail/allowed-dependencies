@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1
+
+### v1.0.0
+
+- Stable, no changes since v0.5.2.
+
 ## Version 0
 
 ### v0.5.2
