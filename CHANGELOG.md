@@ -2,6 +2,11 @@
 
 ## Version 0
 
+### v0.5.2
+
+- Upgraded all dependencies;
+- Minor adjustments to the tests.
+
 ### v0.5.1
 
 - Minor refactoring;
