@@ -25,7 +25,7 @@ jobs:
           bun-version: latest
       - name: Show the bun lock diff
         if: github.event_name == 'pull_request'
-        uses: RobinTail/bun-diff-action@v0.3.1
+        uses: RobinTail/bun-diff-action@v0.3.2
       - name: Get bun cache dir and hash
         id: bunCache
         run: |
