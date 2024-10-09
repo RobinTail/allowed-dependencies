@@ -24,6 +24,8 @@
     "url": "git+https://github.com/RobinTail/allowed-dependencies.git"
   },
   "homepage": "https://github.com/RobinTail/allowed-dependencies",
+  "bugs": "https://github.com/RobinTail/allowed-dependencies/issues",
+  "funding": "https://github.com/sponsors/RobinTail",
   "author": {
     "name": "Anna Bocharova",
     "url": "https://robintail.cz"
