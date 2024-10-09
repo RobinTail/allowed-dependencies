@@ -2,6 +2,11 @@
 
 ## Version 1
 
+### v1.0.1
+
+- Upgraded all dependencies;
+- There is now an opportunity to support the project with sponsorship: https://github.com/sponsors/RobinTail
+
 ### v1.0.0
 
 - Stable, no changes since v0.5.2.
