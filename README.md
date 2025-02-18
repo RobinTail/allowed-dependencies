@@ -100,6 +100,7 @@ Supply the options this way:
         production: true,
         requiredPeers: true,
         optionalPeers: "typeOnly",
+        development: false,
         typeOnly: [],
         ignore: ["^\\.", "^node:"],
       },
@@ -138,6 +139,13 @@ optionalPeers:
     - boolean
     - "typeOnly"
   default: "typeOnly"
+
+development:
+  description: Allow importing the packages listed in manifest.devDependencies
+  type:
+    - boolean
+    - "typeOnly"
+  default: false
 
 typeOnly:
   description: Extra packages to allow type only imports
