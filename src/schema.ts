@@ -8,7 +8,10 @@ const value = {
 export type Value = FromSchema<typeof value>;
 
 const categories = fromPairs(
-  xprod(["production", "optionalPeers", "requiredPeers"] as const, [value]),
+  xprod(
+    ["production", "optionalPeers", "requiredPeers", "development"] as const,
+    [value],
+  ),
 );
 export type Category = keyof typeof categories;
 

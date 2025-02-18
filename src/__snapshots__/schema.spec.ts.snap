@@ -4,6 +4,19 @@ exports[`Schema options has the required props 1`] = `
 {
   "additionalProperties": false,
   "properties": {
+    "development": {
+      "oneOf": [
+        {
+          "type": "boolean",
+        },
+        {
+          "enum": [
+            "typeOnly",
+          ],
+          "type": "string",
+        },
+      ],
+    },
     "ignore": {
       "items": {
         "format": "regex",
