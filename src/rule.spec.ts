@@ -76,6 +76,12 @@ tester.run("dependencies", rule, {
       options: [{ ignore: ["^fancy-\\w+$"] }],
       before: makeBefore({}),
     },
+    {
+      name: "type import of accordingly enabled devDependency",
+      code: `import type {} from "eslint"`,
+      options: [{ development: "typeOnly" }],
+      before: makeBefore({ devDependencies: { eslint: "" } }),
+    },
   ],
   invalid: [
     {
