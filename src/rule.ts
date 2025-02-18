@@ -11,6 +11,7 @@ const messages = {
 const defaults: Options = {
   production: true,
   requiredPeers: true,
+  development: false,
   optionalPeers: "typeOnly",
 };
 
@@ -45,6 +46,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
 
     const sources: Record<Category, string[]> = {
       production: Object.keys(manifest.dependencies || {}),
+      development: Object.keys(manifest.devDependencies || {}),
       requiredPeers,
       optionalPeers,
     };
