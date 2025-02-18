@@ -41,7 +41,6 @@
     "test": "bun test src",
     "mdfix": "bunx --bun prettier *.md --write",
     "version": "bun run tools/version.ts",
-    "postversion": "git push && git push --tags",
     "prepublishOnly": "bun run lint && bun run test && bun run build"
   },
   "dependencies": {
