@@ -42,7 +42,10 @@ const processOptions =
     packageDir = ctx.cwd,
     typeOnly = [],
     ignore = ["^\\.", "^node:"],
-    ...rest
+    production = defaults.production,
+    development = defaults.development,
+    requiredPeers = defaults.requiredPeers,
+    optionalPeers = defaults.optionalPeers,
   }: Options) => {
     const manifest = getManifest(packageDir);
     const sources: Record<Category, string[]> = {
@@ -50,10 +53,12 @@ const processOptions =
       development: Object.keys(manifest.devDependencies || {}),
       ...splitPeers(manifest),
     };
-
+    const controls = { production, development, requiredPeers, optionalPeers };
     const take = (value: Value) =>
       flatten(
-        values(mapObjIndexed((v, k) => (v === value ? sources[k] : []), rest)),
+        values(
+          mapObjIndexed((v, k) => (v === value ? sources[k] : []), controls),
+        ),
       );
 
     const [allowed, limited] = [true, "typeOnly" as const].map(take);
@@ -66,15 +71,14 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     messages,
     type: "problem",
-    schema: {
-      type: "array",
-      uniqueItems: true,
-      items: options,
-    },
+    schema: { type: "array", items: options },
   },
-  defaultOptions: [defaults],
-  create: (ctx, options) => {
-    const combined = map(processOptions(ctx), options);
+  defaultOptions: [...[defaults]],
+  create: (ctx) => {
+    const combined = map(
+      processOptions(ctx),
+      ctx.options.length ? ctx.options : [{}],
+    );
 
     const [allowed, limited, ignored] = map(
       (group) => flatten(pluck(group, combined)),

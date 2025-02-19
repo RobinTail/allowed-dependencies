@@ -4,8 +4,11 @@ import { RuleTester } from "@typescript-eslint/rule-tester";
 import { readerMock } from "../mocks/fs.ts";
 import { rule } from "./rule";
 
-const makeBefore = (env: object) => () =>
-  readerMock.mockReturnValueOnce(JSON.stringify(env));
+const makeBefore =
+  (...envs: object[]) =>
+  () => {
+    for (const env of envs) readerMock.mockReturnValueOnce(JSON.stringify(env));
+  };
 
 RuleTester.afterAll = afterAll;
 RuleTester.describe = describe;
@@ -81,6 +84,15 @@ tester.run("dependencies", rule, {
       code: `import type {} from "eslint"`,
       options: [{ development: "typeOnly" }],
       before: makeBefore({ devDependencies: { eslint: "" } }),
+    },
+    {
+      name: "multiple options",
+      code: `import {} from "fancy-module"; import type {} from "eslint";`,
+      options: [{ production: true }, { development: "typeOnly" }],
+      before: makeBefore(
+        { dependencies: { "fancy-module": "" } },
+        { devDependencies: { eslint: "" } },
+      ),
     },
   ],
   invalid: [
