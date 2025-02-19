@@ -88,14 +88,14 @@ tester.run("dependencies", rule, {
       name: "regular import of unlisted dependency",
       code: `import {} from "eslint"`,
       before: makeBefore({ dependencies: {} }),
-      errors: [{ messageId: "prohibited" }],
+      errors: [{ messageId: "prohibited", data: { name: "eslint" } }],
     },
     {
       name: "regular import of explicitly disabled prod dependency",
       code: `import {} from "eslint"`,
       options: [{ production: false }],
       before: makeBefore({ dependencies: { eslint: "" } }),
-      errors: [{ messageId: "prohibited" }],
+      errors: [{ messageId: "prohibited", data: { name: "eslint" } }],
     },
     {
       name: "regular import of optional peer dependency",
@@ -104,21 +104,21 @@ tester.run("dependencies", rule, {
         peerDependencies: { eslint: "" },
         peerDependenciesMeta: { eslint: { optional: true } },
       }),
-      errors: [{ messageId: "typeOnly" }],
+      errors: [{ messageId: "typeOnly", data: { name: "eslint" } }],
     },
     {
       name: "regular import of unlisted type only dependency",
       code: `import {} from "eslint"`,
       options: [{ typeOnly: ["eslint"] }],
       before: makeBefore({}),
-      errors: [{ messageId: "typeOnly" }],
+      errors: [{ messageId: "typeOnly", data: { name: "eslint" } }],
     },
     {
       name: "import of built-in module when missing in ignore list",
       code: `import {} from "node:fs"`,
       options: [{ ignore: ["^fancy-\\w+$"] }],
       before: makeBefore({}),
-      errors: [{ messageId: "prohibited" }],
+      errors: [{ messageId: "prohibited", data: { name: "node:fs" } }],
     },
     {
       name: "demo",
@@ -128,7 +128,10 @@ tester.run("dependencies", rule, {
         peerDependencies: { prettier: "^3" },
         peerDependenciesMeta: { prettier: { optional: true } },
       }),
-      errors: [{ messageId: "prohibited" }, { messageId: "typeOnly" }],
+      errors: [
+        { messageId: "prohibited", data: { name: "typescript" } },
+        { messageId: "typeOnly", data: { name: "prettier" } },
+      ],
     },
   ],
 });
