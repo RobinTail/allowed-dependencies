@@ -9,7 +9,7 @@ import {
   pluck,
   values,
 } from "ramda";
-import { getManifest, getName } from "./helpers.ts";
+import { type Manifest, getManifest, getName } from "./helpers.ts";
 import { type Category, type Options, type Value, options } from "./schema.ts";
 
 const messages = {
@@ -26,6 +26,16 @@ const defaults: Options = {
 
 const lookup = flip(path);
 
+const splitPeers = (manifest: Manifest) => {
+  const isOptional = (name: string) =>
+    lookup(manifest, ["peerDependenciesMeta", name, "optional"]) as boolean;
+  const [optionalPeers, requiredPeers] = partition(
+    isOptional,
+    Object.keys(manifest.peerDependencies || {}),
+  );
+  return { requiredPeers, optionalPeers };
+};
+
 const processOptions =
   (ctx: { cwd: string }) =>
   ({
@@ -35,18 +45,10 @@ const processOptions =
     ...rest
   }: Options) => {
     const manifest = getManifest(packageDir);
-    const isOptional = (name: string) =>
-      lookup(manifest, ["peerDependenciesMeta", name, "optional"]) as boolean;
-    const [optionalPeers, requiredPeers] = partition(
-      isOptional,
-      Object.keys(manifest.peerDependencies || {}),
-    );
-
     const sources: Record<Category, string[]> = {
       production: Object.keys(manifest.dependencies || {}),
       development: Object.keys(manifest.devDependencies || {}),
-      requiredPeers,
-      optionalPeers,
+      ...splitPeers(manifest),
     };
 
     const take = (value: Value) =>
