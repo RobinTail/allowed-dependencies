@@ -1,6 +1,6 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import * as R from "ramda";
-import { type Manifest, getManifest, getName } from "./helpers.ts";
+import { getManifest, getName, splitPeers } from "./helpers.ts";
 import { type Category, type Options, type Value, options } from "./schema.ts";
 
 const messages = {
@@ -15,18 +15,7 @@ const defaults: Options = {
   optionalPeers: "typeOnly",
 };
 
-const lookup = R.flip(R.path);
 const slices: Value[] = [true, false, "typeOnly"];
-
-const splitPeers = (manifest: Manifest) => {
-  const isOptional = (name: string) =>
-    lookup(manifest, ["peerDependenciesMeta", name, "optional"]) as boolean;
-  const [optionalPeers, requiredPeers] = R.partition(
-    isOptional,
-    Object.keys(manifest.peerDependencies || {}),
-  );
-  return { requiredPeers, optionalPeers };
-};
 
 const makeIterator =
   (ctx: { cwd: string }) =>

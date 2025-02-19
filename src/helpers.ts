@@ -21,3 +21,13 @@ export interface Manifest {
 
 export const getManifest = (path: string) =>
   JSON.parse(readFileSync(join(path, "package.json"), "utf8")) as Manifest;
+
+export const splitPeers = (manifest: Manifest) => {
+  const isOptional = (name: string) =>
+    Boolean(R.path(["peerDependenciesMeta", name, "optional"], manifest));
+  const [optionalPeers, requiredPeers] = R.partition(
+    isOptional,
+    Object.keys(manifest.peerDependencies || {}),
+  );
+  return { requiredPeers, optionalPeers };
+};
