@@ -1,14 +1,5 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
-import {
-  path,
-  flatten,
-  flip,
-  map,
-  mapObjIndexed,
-  partition,
-  pluck,
-  values,
-} from "ramda";
+import * as R from "ramda";
 import { type Manifest, getManifest, getName } from "./helpers.ts";
 import { type Category, type Options, type Value, options } from "./schema.ts";
 
@@ -24,12 +15,12 @@ const defaults: Options = {
   optionalPeers: "typeOnly",
 };
 
-const lookup = flip(path);
+const lookup = R.flip(R.path);
 
 const splitPeers = (manifest: Manifest) => {
   const isOptional = (name: string) =>
     lookup(manifest, ["peerDependenciesMeta", name, "optional"]) as boolean;
-  const [optionalPeers, requiredPeers] = partition(
+  const [optionalPeers, requiredPeers] = R.partition(
     isOptional,
     Object.keys(manifest.peerDependencies || {}),
   );
@@ -55,9 +46,9 @@ const makeIterator =
     };
     const controls = { production, development, requiredPeers, optionalPeers };
     const take = (value: Value) =>
-      flatten(
-        values(
-          mapObjIndexed((v, k) => (v === value ? sources[k] : []), controls),
+      R.flatten(
+        R.values(
+          R.mapObjIndexed((v, k) => (v === value ? sources[k] : []), controls),
         ),
       );
 
@@ -76,10 +67,10 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
   defaultOptions: [...[defaults]],
   create: (ctx) => {
     const iterator = makeIterator(ctx);
-    const combined = map(iterator, ctx.options.length ? ctx.options : [{}]);
+    const combined = R.map(iterator, ctx.options.length ? ctx.options : [{}]);
 
-    const [allowed, limited, ignored] = map(
-      (group) => flatten(pluck(group, combined)),
+    const [allowed, limited, ignored] = R.map(
+      (group) => R.flatten(R.pluck(group, combined)),
       ["allowed", "limited", "ignore"] as const,
     );
 
