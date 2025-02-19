@@ -36,7 +36,7 @@ const splitPeers = (manifest: Manifest) => {
   return { requiredPeers, optionalPeers };
 };
 
-const processOptions =
+const makeIterator =
   (ctx: { cwd: string }) =>
   ({
     packageDir = ctx.cwd,
@@ -75,10 +75,8 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
   },
   defaultOptions: [...[defaults]],
   create: (ctx) => {
-    const combined = map(
-      processOptions(ctx), // @todo ctx used twice, find a more nice way
-      ctx.options.length ? ctx.options : [{}],
-    );
+    const iterator = makeIterator(ctx);
+    const combined = map(iterator, ctx.options.length ? ctx.options : [{}]);
 
     const [allowed, limited, ignored] = map(
       (group) => flatten(pluck(group, combined)),
@@ -90,18 +88,15 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
-        if (!isIgnored(source.value)) {
-          const name = getName(source.value);
-          if (!allowed.includes(name)) {
-            if (importKind !== "type") {
-              ctx.report({
-                node: source,
-                data: { name },
-                messageId: limited.includes(name) ? "typeOnly" : "prohibited",
-              });
-            }
-          }
-        }
+        if (isIgnored(source.value)) return;
+        const name = getName(source.value);
+        if (allowed.includes(name)) return;
+        if (importKind === "type") return;
+        ctx.report({
+          node: source,
+          data: { name },
+          messageId: limited.includes(name) ? "typeOnly" : "prohibited",
+        });
       },
     };
   },
