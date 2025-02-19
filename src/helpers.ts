@@ -16,6 +16,7 @@ export interface Manifest {
   devDependencies?: Dependencies;
   peerDependencies?: Dependencies;
   peerDependenciesMeta?: PeerMeta;
+  [K: string]: unknown;
 }
 
 export const getManifest = (path: string) =>
