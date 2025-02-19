@@ -24,7 +24,7 @@ export const getManifest = (path: string) =>
 
 export const splitPeers = (manifest: Manifest) => {
   const isOptional = (name: string) =>
-    Boolean(R.path(["peerDependenciesMeta", name, "optional"], manifest));
+    R.path(["peerDependenciesMeta", name, "optional"], manifest) === true;
   const [optionalPeers, requiredPeers] = R.partition(
     isOptional,
     Object.keys(manifest.peerDependencies || {}),
