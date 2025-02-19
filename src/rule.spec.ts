@@ -121,6 +121,12 @@ tester.run("dependencies", rule, {
       errors: [{ messageId: "prohibited", data: { name: "node:fs" } }],
     },
     {
+      name: "type importing of explicitly prohibited dependency",
+      code: `import type {} from "typescript"`,
+      before: makeBefore({ devDependencies: { typescript: "" } }), // dev is false by default
+      errors: [{ messageId: "prohibited", data: { name: "typescript" } }],
+    },
+    {
       name: "demo",
       code: `import {factory} from "typescript"; import {format} from "prettier";`,
       before: makeBefore({

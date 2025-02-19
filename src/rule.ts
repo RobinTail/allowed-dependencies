@@ -56,7 +56,11 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
         values(mapObjIndexed((v, k) => (v === value ? sources[k] : []), rest)),
       );
 
-    const [allowed, limited] = [true, "typeOnly" as const].map(take);
+    const [allowed, prohibited, limited] = [
+      true,
+      false,
+      "typeOnly" as const,
+    ].map(take);
     limited.push(...typeOnly);
 
     return {
@@ -64,7 +68,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
         if (!isIgnored(source.value)) {
           const name = getName(source.value);
           if (!allowed.includes(name)) {
-            if (importKind !== "type") {
+            if (importKind !== "type" || prohibited.includes(name)) {
               ctx.report({
                 node: source,
                 data: { name },
