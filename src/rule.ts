@@ -15,7 +15,7 @@ const defaults: Options = {
   optionalPeers: "typeOnly",
 };
 
-const slices: Value[] = [true, false, "typeOnly"];
+const values: Value[] = [true, false, "typeOnly"];
 
 const makeIterator =
   (ctx: { cwd: string }) =>
@@ -42,7 +42,7 @@ const makeIterator =
         ),
       );
 
-    const [allowed, prohibited, limited] = R.map(take, slices);
+    const [allowed, prohibited, limited] = R.map(take, values);
     limited.push(...typeOnly);
 
     return { allowed, prohibited, limited, ignore };
