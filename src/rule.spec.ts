@@ -77,9 +77,8 @@ tester.run("dependencies", rule, {
       before: makeBefore({}),
     },
     {
-      name: "type import of accordingly enabled devDependency",
+      name: "type import of devDependency",
       code: `import type {} from "eslint"`,
-      options: [{ development: "typeOnly" }],
       before: makeBefore({ devDependencies: { eslint: "" } }),
     },
   ],
