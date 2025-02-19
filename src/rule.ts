@@ -86,7 +86,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
     );
 
     const isIgnored = (imp: string) =>
-      ignored.some((pattern) => new RegExp(pattern!).test(imp)); // @todo check undefined
+      ignored.some((pattern) => new RegExp(pattern).test(imp));
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
