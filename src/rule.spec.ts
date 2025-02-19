@@ -77,9 +77,8 @@ tester.run("dependencies", rule, {
       before: makeBefore({}),
     },
     {
-      name: "type import of accordingly enabled devDependency",
+      name: "type import of devDependency",
       code: `import type {} from "eslint"`,
-      options: [{ development: "typeOnly" }],
       before: makeBefore({ devDependencies: { eslint: "" } }),
     },
   ],
@@ -121,16 +120,24 @@ tester.run("dependencies", rule, {
       errors: [{ messageId: "prohibited", data: { name: "node:fs" } }],
     },
     {
+      name: "type importing of explicitly prohibited dependency",
+      code: `import type {} from "typescript"`,
+      options: [{ development: false }],
+      before: makeBefore({ devDependencies: { typescript: "" } }),
+      errors: [{ messageId: "prohibited", data: { name: "typescript" } }],
+    },
+    {
       name: "demo",
-      code: `import {factory} from "typescript"; import {format} from "prettier";`,
+      code: `import {factory} from "typescript"; import {format} from "prettier"; import fancyFn from "unlisted-module"`,
       before: makeBefore({
         devDependencies: { typescript: "^5" },
         peerDependencies: { prettier: "^3" },
         peerDependenciesMeta: { prettier: { optional: true } },
       }),
       errors: [
-        { messageId: "prohibited", data: { name: "typescript" } },
+        { messageId: "typeOnly", data: { name: "typescript" } },
         { messageId: "typeOnly", data: { name: "prettier" } },
+        { messageId: "prohibited", data: { name: "unlisted-module" } },
       ],
     },
   ],
