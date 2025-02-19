@@ -15,6 +15,7 @@ export type Manifest = Partial<
     Record<string, string>
   > & {
     peerDependenciesMeta: Record<string, { optional?: boolean }>;
+    [K: string]: unknown;
   }
 >;
 
