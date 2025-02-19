@@ -101,7 +101,7 @@ Supply the options this way:
         production: true,
         requiredPeers: true,
         optionalPeers: "typeOnly",
-        development: false,
+        development: "typeOnly",
         typeOnly: [],
         ignore: ["^\\.", "^node:"],
       },
