@@ -19,7 +19,11 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     messages,
     type: "problem",
-    schema: [options],
+    schema: {
+      type: "array",
+      uniqueItems: true,
+      items: options,
+    },
   },
   defaultOptions: [defaults],
   create: (
