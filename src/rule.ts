@@ -24,6 +24,8 @@ const defaults: Options = {
   optionalPeers: "typeOnly",
 };
 
+const lookup = flip(path);
+
 const processOptions =
   (ctx: { cwd: string }) =>
   ({
@@ -33,9 +35,8 @@ const processOptions =
     ...rest
   }: Options) => {
     const manifest = getManifest(packageDir);
-    const lookup = flip(path)(manifest);
     const isOptional = (name: string) =>
-      lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
+      lookup(manifest, ["peerDependenciesMeta", name, "optional"]) as boolean;
     const [optionalPeers, requiredPeers] = partition(
       isOptional,
       Object.keys(manifest.peerDependencies || {}),
