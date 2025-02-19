@@ -52,11 +52,11 @@ const makeIterator =
         ),
       );
 
-    const [allowed, prohibited, limited] = [
+    const [allowed, prohibited, limited] = R.map(take, [
       true,
       false,
-      "typeOnly" as const,
-    ].map(take);
+      "typeOnly",
+    ]);
     limited.push(...typeOnly);
 
     return { allowed, prohibited, limited, ignore };
