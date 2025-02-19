@@ -11,7 +11,7 @@ const messages = {
 const defaults: Options = {
   production: true,
   requiredPeers: true,
-  development: false,
+  development: "typeOnly",
   optionalPeers: "typeOnly",
 };
 
@@ -52,10 +52,14 @@ const makeIterator =
         ),
       );
 
-    const [allowed, limited] = [true, "typeOnly" as const].map(take);
+    const [allowed, prohibited, limited] = [
+      true,
+      false,
+      "typeOnly" as const,
+    ].map(take);
     limited.push(...typeOnly);
 
-    return { allowed, limited, ignore };
+    return { allowed, prohibited, limited, ignore };
   };
 
 export const rule = ESLintUtils.RuleCreator.withoutDocs({
@@ -69,9 +73,9 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
     const iterator = makeIterator(ctx);
     const combined = R.map(iterator, ctx.options.length ? ctx.options : [{}]);
 
-    const [allowed, limited, ignored] = R.map(
+    const [allowed, prohibited, limited, ignored] = R.map(
       (group) => R.flatten(R.pluck(group, combined)),
-      ["allowed", "limited", "ignore"] as const,
+      ["allowed", "prohibited", "limited", "ignore"] as const,
     );
 
     const isIgnored = (imp: string) =>
@@ -82,7 +86,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
         if (isIgnored(source.value)) return;
         const name = getName(source.value);
         if (allowed.includes(name)) return;
-        if (importKind === "type") return;
+        if (importKind === "type" && !prohibited.includes(name)) return;
         ctx.report({
           node: source,
           data: { name },
