@@ -76,7 +76,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
   defaultOptions: [...[defaults]],
   create: (ctx) => {
     const combined = map(
-      processOptions(ctx),
+      processOptions(ctx), // @todo ctx used twice, find a more nice way
       ctx.options.length ? ctx.options : [{}],
     );
 
