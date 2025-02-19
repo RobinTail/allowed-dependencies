@@ -11,7 +11,7 @@ const messages = {
 const defaults: Options = {
   production: true,
   requiredPeers: true,
-  development: false,
+  development: "typeOnly",
   optionalPeers: "typeOnly",
 };
 

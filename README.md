@@ -28,8 +28,9 @@ The import syntax also matters: regular `import` or `import type` (excluded from
 import { createServer } from "express-zod-api"; // OK
 import { join } from "node:fs"; // OK
 import { helper } from "./tools"; // OK
-import { factory } from "typescript"; // Error: Importing typescript is not allowed.
+import { factory } from "typescript"; // Error: Only 'import type' syntax is allowed for typescript.
 import { format } from "prettier"; // Error: Only 'import type' syntax is allowed for prettier.
+import fancyFn from "unlisted-module"; // Error: Importing unlisted-module is not allowed.
 ```
 
 ## Relationships and differences
@@ -145,7 +146,7 @@ development:
   type:
     - boolean
     - "typeOnly"
-  default: false
+  default: "typeOnly"
 
 typeOnly:
   description: Extra packages to allow type only imports
