@@ -48,6 +48,12 @@ const makeIterator =
     return { allowed, prohibited, limited, ignore };
   };
 
+const makeTester = (ignored: string[]) => {
+  const patterns = R.map(R.constructN(1, RegExp), ignored);
+  const invoker = R.invoker(1, "test");
+  return (name: string) => R.any(invoker(name), patterns);
+};
+
 export const rule = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     messages,
@@ -64,10 +70,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
       ["allowed", "prohibited", "limited", "ignore"] as const,
     );
 
-    const patterns = R.map(R.constructN(1, RegExp), ignored);
-    const tester = R.invoker(1, "test");
-    const isIgnored = (name: string) => R.any(tester(name), patterns);
-
+    const isIgnored = makeTester(ignored);
     return {
       ImportDeclaration: ({ source, importKind }) => {
         if (isIgnored(source.value)) return;
