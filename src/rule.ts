@@ -16,6 +16,7 @@ const defaults: Options = {
 };
 
 const lookup = R.flip(R.path);
+const slices: Value[] = [true, false, "typeOnly"];
 
 const splitPeers = (manifest: Manifest) => {
   const isOptional = (name: string) =>
@@ -52,11 +53,7 @@ const makeIterator =
         ),
       );
 
-    const [allowed, prohibited, limited] = R.map(take, [
-      true,
-      false,
-      "typeOnly",
-    ]);
+    const [allowed, prohibited, limited] = R.map(take, slices);
     limited.push(...typeOnly);
 
     return { allowed, prohibited, limited, ignore };
