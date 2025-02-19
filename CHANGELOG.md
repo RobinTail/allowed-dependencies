@@ -2,6 +2,12 @@
 
 ## Version 1
 
+### v1.1.1
+
+- Fix for the `development` option:
+  - Default value changed to `typeOnly` (no breaking changes);
+  - The `false` now prohibits the corresponding category of dependencies.
+
 ### v1.1.0
 
 - New config option `development` (disabled by default) for handling `devDependencies`.
