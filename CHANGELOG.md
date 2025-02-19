@@ -2,6 +2,10 @@
 
 ## Version 1
 
+### v1.1.0
+
+- New config option `development` (disabled by default) for handling `devDependencies`.
+
 ### v1.0.1
 
 - Upgraded all dependencies;
