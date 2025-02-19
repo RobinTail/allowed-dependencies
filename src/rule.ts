@@ -66,7 +66,7 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
 
     const patterns = R.map(R.constructN(1, RegExp), ignored);
     const isIgnored = (name: string) =>
-      patterns.some((pattern) => pattern.test(name));
+      R.any((pattern) => pattern.test(name), patterns);
 
     return {
       ImportDeclaration: ({ source, importKind }) => {
