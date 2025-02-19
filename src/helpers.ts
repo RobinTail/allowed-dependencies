@@ -9,15 +9,14 @@ const hasScope = startsWith("@");
 export const getName = (imp: string) =>
   flow(imp, [split("/"), take(hasScope(imp) ? 2 : 1), join("/")]);
 
-export type Manifest = Partial<
-  Record<
-    "dependencies" | "devDependencies" | "peerDependencies",
-    Record<string, string>
-  > & {
-    peerDependenciesMeta: Record<string, { optional?: boolean }>;
-    [K: string]: unknown;
-  }
->;
+type Dependencies = Record<string, string>;
+type PeerMeta = Record<string, { optional?: boolean }>;
+export interface Manifest {
+  dependencies?: Dependencies;
+  devDependencies?: Dependencies;
+  peerDependencies?: Dependencies;
+  peerDependenciesMeta?: PeerMeta;
+}
 
 export const getManifest = (path: string) =>
   JSON.parse(readFileSync(joinPath(path, "package.json"), "utf8")) as Manifest;
