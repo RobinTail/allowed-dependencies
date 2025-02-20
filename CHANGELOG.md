@@ -2,6 +2,11 @@
 
 ## Version 1
 
+### v1.2.0
+
+- Feat: ability to handle multiple `package.json` or workspaces:
+  - You can now supply several sets of options to the plugin config.
+
 ### v1.1.1
 
 - Fix for the `development` option:
