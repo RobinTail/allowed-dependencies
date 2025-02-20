@@ -1,6 +1,6 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
-import { path, flatten, flip, mapObjIndexed, partition, values } from "ramda";
-import { getManifest, getName } from "./helpers.ts";
+import * as R from "ramda";
+import { getManifest, getName, splitPeers } from "./helpers.ts";
 import { type Category, type Options, type Value, options } from "./schema.ts";
 
 const messages = {
@@ -15,68 +15,73 @@ const defaults: Options = {
   optionalPeers: "typeOnly",
 };
 
+const values: Value[] = [true, false, "typeOnly"];
+
+const makeIterator =
+  (ctx: { cwd: string }) =>
+  ({
+    packageDir = ctx.cwd,
+    typeOnly = [],
+    ignore = ["^\\.", "^node:"],
+    production = defaults.production,
+    development = defaults.development,
+    requiredPeers = defaults.requiredPeers,
+    optionalPeers = defaults.optionalPeers,
+  }: Options) => {
+    const manifest = getManifest(packageDir);
+    const sources: Record<Category, string[]> = {
+      production: Object.keys(manifest.dependencies || {}),
+      development: Object.keys(manifest.devDependencies || {}),
+      ...splitPeers(manifest),
+    };
+    const controls = { production, development, requiredPeers, optionalPeers };
+    const take = (value: Value) =>
+      R.flatten(
+        R.values(
+          R.mapObjIndexed((v, k) => (v === value ? sources[k] : []), controls),
+        ),
+      );
+
+    const [allowed, prohibited, limited] = R.map(take, values);
+    limited.push(...typeOnly);
+
+    return { allowed, prohibited, limited, ignore };
+  };
+
+const makeTester = (ignored: string[]) => {
+  const patterns = R.map(R.constructN(1, RegExp), ignored);
+  const invoker = R.invoker(1, "test");
+  return (name: string) => R.any(invoker(name), patterns);
+};
+
 export const rule = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     messages,
     type: "problem",
-    schema: [options],
+    schema: { type: "array", items: options },
   },
-  defaultOptions: [defaults],
-  create: (
-    ctx,
-    [
-      {
-        packageDir = ctx.cwd,
-        typeOnly = [],
-        ignore = ["^\\.", "^node:"],
-        ...rest
-      },
-    ],
-  ) => {
-    const manifest = getManifest(packageDir);
-    const isIgnored = (imp: string) =>
-      ignore.some((pattern) => new RegExp(pattern).test(imp));
-    const lookup = flip(path)(manifest);
-    const isOptional = (name: string) =>
-      lookup(["peerDependenciesMeta", name, "optional"]) as boolean;
-    const [optionalPeers, requiredPeers] = partition(
-      isOptional,
-      Object.keys(manifest.peerDependencies || {}),
+  defaultOptions: [...[defaults]],
+  create: (ctx) => {
+    const iterator = makeIterator(ctx);
+    const combined = R.map(iterator, ctx.options.length ? ctx.options : [{}]);
+
+    const [allowed, prohibited, limited, ignored] = R.map(
+      (group) => R.flatten(R.pluck(group, combined)),
+      ["allowed", "prohibited", "limited", "ignore"] as const,
     );
 
-    const sources: Record<Category, string[]> = {
-      production: Object.keys(manifest.dependencies || {}),
-      development: Object.keys(manifest.devDependencies || {}),
-      requiredPeers,
-      optionalPeers,
-    };
-
-    const take = (value: Value) =>
-      flatten(
-        values(mapObjIndexed((v, k) => (v === value ? sources[k] : []), rest)),
-      );
-
-    const [allowed, prohibited, limited] = [
-      true,
-      false,
-      "typeOnly" as const,
-    ].map(take);
-    limited.push(...typeOnly);
-
+    const isIgnored = makeTester(ignored);
     return {
       ImportDeclaration: ({ source, importKind }) => {
-        if (!isIgnored(source.value)) {
-          const name = getName(source.value);
-          if (!allowed.includes(name)) {
-            if (importKind !== "type" || prohibited.includes(name)) {
-              ctx.report({
-                node: source,
-                data: { name },
-                messageId: limited.includes(name) ? "typeOnly" : "prohibited",
-              });
-            }
-          }
-        }
+        if (isIgnored(source.value)) return;
+        const name = getName(source.value);
+        if (allowed.includes(name)) return;
+        if (importKind === "type" && !prohibited.includes(name)) return;
+        ctx.report({
+          node: source,
+          data: { name },
+          messageId: limited.includes(name) ? "typeOnly" : "prohibited",
+        });
       },
     };
   },

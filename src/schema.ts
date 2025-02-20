@@ -1,14 +1,14 @@
 import type { JSONSchema } from "@typescript-eslint/utils";
 import type { FromSchema } from "json-schema-to-ts";
-import { fromPairs, xprod } from "ramda";
+import * as R from "ramda";
 
 const value = {
   oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
 } as const satisfies JSONSchema.JSONSchema4;
 export type Value = FromSchema<typeof value>;
 
-const categories = fromPairs(
-  xprod(
+const categories = R.fromPairs(
+  R.xprod(
     ["production", "optionalPeers", "requiredPeers", "development"] as const,
     [value],
   ),
