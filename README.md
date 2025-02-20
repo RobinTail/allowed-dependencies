@@ -39,6 +39,7 @@ import fancyFn from "unlisted-module"; // Error: Importing unlisted-module is no
   cannot, and not specifically, but by category.
 - Unlike `no-extraneous-dependencies` of `eslint-plugin-import` plugin, it supports ESLint 9 and its flat config.
 - Unlike same rule of `eslint-plugin-import-x` plugin, it does not require to install a typescript resolver to operate.
+- The plugin also supports reading multiple `package.json`.
 
 # Quick start
 
@@ -105,6 +106,7 @@ Supply the options this way:
         typeOnly: [],
         ignore: ["^\\.", "^node:"],
       },
+      // {...} — you can add more (workspaces?)
     ],
   },
 }
@@ -112,7 +114,7 @@ Supply the options this way:
 
 By default, the plugin is configured for checking the source code based on the `package.json` located in the current
 working directory of the ESLint process. Production dependencies and mandatory peers are allowed to import,
-but optional peers are allowed to be imported only as types.
+but optional peers and development modules are allowed to be imported only as types.
 
 ```yaml
 packageDir:
