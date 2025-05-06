@@ -2,6 +2,10 @@
 
 ## Version 1
 
+### v1.3.0
+
+- Supporting Node 24.
+
 ### v1.2.0
 
 - Feat: ability to handle multiple `package.json` or workspaces:
