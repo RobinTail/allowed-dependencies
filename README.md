@@ -45,7 +45,7 @@ import fancyFn from "unlisted-module"; // Error: Importing unlisted-module is no
 
 ## Requirements
 
-- Node.js `^18.18.0 || ^20.9.0 || ^22.0.0`
+- Node.js `^18.18.0 || ^20.9.0 || ^22.0.0 || ^24.0.0`
 - `eslint@^9.0.0`
 - `typescript-eslint@^8.0.0`
 
