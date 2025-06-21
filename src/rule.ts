@@ -1,7 +1,7 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import * as R from "ramda";
 import { getManifest, getName, splitPeers } from "./helpers.ts";
-import { type Category, type Options, type Value, options } from "./schema.ts";
+import { type Category, type Options, options, type Value } from "./schema.ts";
 
 const messages = {
   prohibited: "Importing {{name}} is not allowed.",
