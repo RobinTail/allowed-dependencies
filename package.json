@@ -44,7 +44,7 @@
     "prepublishOnly": "bun run lint && bun run test && bun run build"
   },
   "dependencies": {
-    "ramda": "^0.30.1"
+    "ramda": "^0.31.3"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.0",
