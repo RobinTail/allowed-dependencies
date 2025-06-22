@@ -2,6 +2,10 @@
 
 ## Version 1
 
+### v1.3.1
+
+- `ramda` version is `^0.31.3`.
+
 ### v1.3.0
 
 - Supporting Node 24.
