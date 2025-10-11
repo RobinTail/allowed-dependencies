@@ -35,4 +35,4 @@ export const splitPeers = (manifest: Manifest) => {
 export const mapTuple = <V extends R.Tuple<unknown, number>, U>(
   fn: (n: V extends R.Tuple<infer T, number> ? T : never) => U,
   dict: V,
-) => R.map(fn, dict) as R.Tuple<U, (typeof dict)["length"]>;
+) => R.map(fn, dict) as R.Tuple<U, V["length"]>;
