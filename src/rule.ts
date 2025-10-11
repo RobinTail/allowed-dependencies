@@ -1,6 +1,6 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import * as R from "ramda";
-import { getManifest, getName, splitPeers } from "./helpers.ts";
+import { getManifest, getName, mapTuple, splitPeers } from "./helpers.ts";
 import { type Category, type Options, options, type Value } from "./schema.ts";
 
 const messages = {
@@ -15,7 +15,7 @@ const defaults: Options = {
   optionalPeers: "typeOnly",
 };
 
-const values: Value[] = [true, false, "typeOnly"];
+const values = [true, false, "typeOnly"] as const satisfies Value[];
 
 const makeIterator =
   (ctx: { cwd: string }) =>
@@ -42,11 +42,18 @@ const makeIterator =
         ),
       );
 
-    const [allowed, prohibited, limited] = R.map(take, values);
+    const [allowed, prohibited, limited] = mapTuple(take, values);
     limited.push(...typeOnly);
 
     return { allowed, prohibited, limited, ignore };
   };
+
+const groups = [
+  "allowed",
+  "prohibited",
+  "limited",
+  "ignore",
+] as const satisfies Array<keyof ReturnType<ReturnType<typeof makeIterator>>>;
 
 const makeTester = (ignored: string[]) => {
   const patterns = R.map(R.constructN(1, RegExp), ignored);
@@ -65,9 +72,9 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
     const iterator = makeIterator(ctx);
     const combined = R.map(iterator, ctx.options.length ? ctx.options : [{}]);
 
-    const [allowed, prohibited, limited, ignored] = R.map(
+    const [allowed, prohibited, limited, ignored] = mapTuple(
       (group) => R.flatten(R.pluck(group, combined)),
-      ["allowed", "prohibited", "limited", "ignore"] as const,
+      groups,
     );
 
     const isIgnored = makeTester(ignored);

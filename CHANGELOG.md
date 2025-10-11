@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2
+
+### v2.0.0
+
+- Supported Node.js versions: `^20.19.0 || ^22.12.0 || ^24.0.0`;
+- ESM only build: all the Node.js versions listed above support `require(ESM)`;
+
 ## Version 1
 
 ### v1.3.2
