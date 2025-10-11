@@ -2,6 +2,10 @@
 
 ## Version 1
 
+### v1.3.2
+
+- `ramda` version is `^0.32.0`.
+
 ### v1.3.1
 
 - `ramda` version is `^0.31.3`.
