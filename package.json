@@ -29,7 +29,7 @@
     "*.md"
   ],
   "scripts": {
-    "build": "bun run tsup && attw --pack --profile esm-only",
+    "build": "bun run tsdown",
     "lint": "bun run biome check",
     "pretest": "tsc --noEmit",
     "test": "bun test src",
@@ -46,12 +46,10 @@
     "@tsconfig/bun": "^1.0.7",
     "@types/bun": "latest",
     "@types/ramda": "^0.31.0",
-    "@types/semver": "^7.5.8",
     "@typescript-eslint/rule-tester": "^8.9.0",
     "eslint": "^9.12.0",
     "json-schema-to-ts": "^3.1.1",
-    "semver": "^7.6.3",
-    "tsup": "^8.3.0",
+    "tsdown": "^0.15.6",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.9.0"
   },
