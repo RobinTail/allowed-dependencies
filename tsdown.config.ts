@@ -4,8 +4,5 @@ export default defineConfig({
   entry: "./src/index.ts",
   minify: true,
   skipNodeModulesBundle: true,
-  attw: {
-    level: "error",
-    profile: "esmOnly",
-  },
+  attw: { level: "error", profile: "esmOnly" },
 });
