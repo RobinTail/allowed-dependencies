@@ -4,18 +4,12 @@
   "version": "1.3.2",
   "type": "module",
   "module": "dist/index.js",
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
   "types": "dist/index.d.cts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "license": "MIT",
@@ -35,7 +29,7 @@
     "*.md"
   ],
   "scripts": {
-    "build": "bun run tsup && attw --pack",
+    "build": "bun run tsup && attw --pack --profile esm-only",
     "lint": "bun run biome check",
     "pretest": "tsc --noEmit",
     "test": "bun test src",
