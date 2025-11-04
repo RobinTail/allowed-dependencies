@@ -2,6 +2,10 @@
 
 ## Version 2
 
+### v2.0.1
+
+- Fixed wrong filename in the `types` of `package.json`.
+
 ### v2.0.0
 
 - Supported Node.js versions: `^20.19.0 || ^22.12.0 || ^24.0.0`;
