@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "devDependencies": {
-    "eslint": "^9",
+    "eslint": "^10",
     "typescript-eslint": "^8",
     "typescript": "^5",
     "eslint-plugin-allowed-dependencies": "link:.."
