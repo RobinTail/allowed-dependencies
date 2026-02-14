@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "devDependencies": {
+    "@eslint/js": "^10",
     "eslint": "^10",
     "typescript-eslint": "^8",
     "typescript": "^5",
