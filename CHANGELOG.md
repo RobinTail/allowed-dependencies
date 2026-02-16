@@ -2,6 +2,11 @@
 
 ## Version 2
 
+### v2.1.0
+
+- Supporting ESLint 10:
+  - This version requires Node.js `^20.19.0 || ^22.13.0 || ^24.0.0` and `typescript-eslint@^8.56.0`.
+
 ### v2.0.1
 
 - Fixed wrong filename in the `types` of `package.json`.
