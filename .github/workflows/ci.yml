@@ -57,6 +57,7 @@ jobs:
           - 22.x
           - 24.0.0
           - 24.x
+          - 26.0.0-rc.1
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -85,7 +86,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install the test dependencies
         working-directory: integration-test
-        run: yarn
+        run: yarn --ignore-engines # todo: remove when 26.0.0 is out
       - name: Test
         working-directory: integration-test
         run: yarn eslint src/sample.ts --debug
