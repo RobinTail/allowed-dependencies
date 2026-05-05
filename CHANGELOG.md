@@ -2,6 +2,10 @@
 
 ## Version 2
 
+### v2.2.0
+
+- Supporting Node 26.
+
 ### v2.1.0
 
 - Supporting ESLint 10:
