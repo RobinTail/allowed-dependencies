@@ -29,7 +29,7 @@
     "*.md"
   ],
   "scripts": {
-    "build": "bun run tsdown",
+    "build": "bun run --bun tsdown --config-loader native",
     "lint": "bun run biome check",
     "pretest": "tsc --noEmit",
     "test": "bun test src",
@@ -49,7 +49,7 @@
     "@typescript-eslint/rule-tester": "^8.56.0",
     "eslint": "^10.0.0",
     "json-schema-to-ts": "^3.1.1",
-    "tsdown": "^0.21.2",
+    "tsdown": "^0.22.0",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.56.0"
   },
