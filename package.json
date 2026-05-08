@@ -29,7 +29,7 @@
     "*.md"
   ],
   "scripts": {
-    "build": "bun run tsdown",
+    "build": "bun run --bun tsdown --config-loader native",
     "lint": "bun run biome check",
     "pretest": "tsc --noEmit",
     "test": "bun test src",
