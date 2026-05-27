@@ -1,5 +1,6 @@
 [install]
 peer = false
+minimumReleaseAge = 259200 # seconds
 [test]
 coverage = true # always enable coverage
 coverageReporter  = ["text", "lcov"]
