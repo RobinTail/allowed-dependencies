@@ -1,6 +1,6 @@
-import type { TSESLint } from "@typescript-eslint/utils";
+import { eslintCompatPlugin } from "@oxlint/plugins";
 import { rule } from "./rule.ts";
 
-export default {
+export default eslintCompatPlugin({
   rules: { dependencies: rule },
-} satisfies TSESLint.Linter.Plugin;
+});

@@ -45,11 +45,11 @@ import fancyFn from "unlisted-module"; // Error: Importing unlisted-module is no
 
 ## Requirements
 
-- `eslint@^9.0.0`
-  - `typescript-eslint@^8.0.0`
-- `eslint@^10.0.0`
-  - `typescript-eslint@^8.56.0`
 - Node.js `^22.19.0 || ^24.11.0 || ^26.0.0`
+- Either:
+  - `eslint@^9.0.0` and `typescript-eslint@^8.0.0`
+  - `eslint@^10.0.0` and `typescript-eslint@^8.56.0`
+  - `oxlint@^1.76.0`
 
 ## Installation
 
