@@ -1,9 +1,8 @@
 {
   "plugins": ["typescript"],
-  "jsPlugins": [{
-    "name": "allowed",
-    "specifier": "eslint-plugin-allowed-dependencies"
-  }],
+  "jsPlugins": [
+    { "name": "allowed", "specifier": "eslint-plugin-allowed-dependencies" }
+  ],
   "categories": {
     "correctness": "error"
   },
