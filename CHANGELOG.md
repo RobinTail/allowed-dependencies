@@ -2,7 +2,13 @@
 
 ## Version 3
 
-### Version 3.0.0
+### v3.1.0
+
+- Supporting OxLint `^1.76.0`:
+  - It's ESLint-compatible but supports TypeScript out of the box;
+  - All peer dependencies are now optional: `typescript-eslint` is no longer required.
+
+### v3.0.0
 
 - Supported Node.js versions: `^22.19.0 || ^24.11.0 || ^26.0.0`.
 
