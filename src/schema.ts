@@ -1,10 +1,10 @@
-import type { JSONSchema } from "@typescript-eslint/utils";
+import type { RuleOptionsSchema } from "@oxlint/plugins";
 import type { FromSchema } from "json-schema-to-ts";
 import * as R from "ramda";
 
 const value = {
   oneOf: [{ type: "boolean" }, { type: "string", enum: ["typeOnly"] }],
-} as const satisfies JSONSchema.JSONSchema4;
+} as const satisfies RuleOptionsSchema;
 export type Value = FromSchema<typeof value>;
 
 const categories = R.fromPairs(
@@ -24,5 +24,5 @@ export const options = {
     ...categories,
   },
   additionalProperties: false,
-} as const satisfies JSONSchema.JSONSchema4;
+} as const satisfies RuleOptionsSchema;
 export type Options = FromSchema<typeof options>;

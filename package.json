@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-allowed-dependencies",
-  "version": "3.0.0",
+  "version": "3.1.0-beta.0",
   "description": "ESLint plugin Allowed Dependencies",
   "keywords": [
     "dependencies",
@@ -43,13 +43,14 @@
   },
   "scripts": {
     "build": "tsdown",
-    "lint": "oxfmt --check",
+    "lint": "oxlint --disable-nested-config && oxfmt --check",
     "pretest": "tsc --noEmit",
     "test": "vitest run",
     "mdfix": "oxfmt *.md",
     "prepublishOnly": "pnpm run lint && pnpm run test && pnpm run build"
   },
   "dependencies": {
+    "@oxlint/plugins": "^1.76.0",
     "ramda": "^0.32.0"
   },
   "devDependencies": {
@@ -57,19 +58,29 @@
     "@tsconfig/node22": "^22.0.5",
     "@types/node": "^22.0.0",
     "@types/ramda": "^0.32.0",
-    "@typescript-eslint/rule-tester": "^8.56.0",
     "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^10.0.0",
     "json-schema-to-ts": "^3.1.1",
     "oxfmt": "^0.62.0",
+    "oxlint": "^1.76.0",
     "tsdown": "^0.22.0",
     "typescript": "^6.0.2",
-    "typescript-eslint": "^8.56.0",
     "vitest": "^4.1.10"
   },
   "peerDependencies": {
     "eslint": "^9.0.0 || ^10.0.0",
+    "oxlint": "^1.76.0",
     "typescript-eslint": "^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    },
+    "typescript-eslint": {
+      "optional": true
+    },
+    "oxlint": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "^22.19.0 || ^24.11.0 || ^26.0.0"

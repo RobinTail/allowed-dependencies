@@ -1,4 +1,4 @@
-import { ESLintUtils } from "@typescript-eslint/utils";
+import type { Rule } from "@oxlint/plugins";
 import * as R from "ramda";
 import { getManifest, getName, mapTuple, splitPeers } from "./helpers.ts";
 import { type Category, type Options, options, type Value } from "./schema.ts";
@@ -61,16 +61,19 @@ const makeTester = (ignored: string[]) => {
   return (name: string) => R.any(invoker(name), patterns);
 };
 
-export const rule = ESLintUtils.RuleCreator.withoutDocs({
+export const rule: Rule = {
   meta: {
     messages,
     type: "problem",
     schema: { type: "array", items: options },
+    defaultOptions: [defaults],
   },
-  defaultOptions: [...[defaults]],
   create: (ctx) => {
     const iterator = makeIterator(ctx);
-    const combined = R.map(iterator, ctx.options.length ? ctx.options : [{}]);
+    const actualOpt = ctx.options as Options[];
+    /* v8 ignore if -- unreachable fallback if `defaultOptions` didn't work */
+    if (!actualOpt.length) actualOpt.push(defaults);
+    const combined = R.map(iterator, actualOpt);
 
     const [allowed, prohibited, limited, ignored] = mapTuple(
       (group) => R.flatten(R.pluck(group, combined)),
@@ -92,4 +95,4 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
       },
     };
   },
-});
+};
