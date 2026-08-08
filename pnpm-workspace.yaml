@@ -3,6 +3,7 @@ packages:
 
 autoInstallPeers: false
 minimumReleaseAge: 4320
+dedupePeers: true
 publicHoistPattern:
   - '@typescript-eslint/parser'
   - '@typescript-eslint/utils'
