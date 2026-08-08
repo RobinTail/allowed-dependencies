@@ -10,11 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
-          bun-version: latest
+          node-version: 24
+          cache: pnpm
       - name: Install dependencies
-        run: bun install
+        run: pnpm install --frozen-lockfile
       - uses: fregante/setup-git-user@v2
-      - run: bun version minor
+      - run: pnpm version minor
+      - run: git push
+      - run: git push --tags

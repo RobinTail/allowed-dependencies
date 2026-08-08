@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import plugin from "./index";
+import { describe, expect, it } from "vitest";
+import plugin from "./index.ts";
 
 describe("The plugin", () => {
   it("should consist of one rule", () => {

@@ -1,0 +1,8 @@
+packages:
+  - integration-test
+
+autoInstallPeers: false
+minimumReleaseAge: 4320
+publicHoistPattern:
+  - '@typescript-eslint/parser'
+  - '@typescript-eslint/utils'
