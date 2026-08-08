@@ -71,7 +71,9 @@ export const rule: Rule = {
   create: (ctx) => {
     const iterator = makeIterator(ctx);
     const actualOpt = ctx.options as Options[];
-    const combined = R.map(iterator, actualOpt.length ? actualOpt : [{}]);
+    /* v8 ignore if -- unreachable fallback if `defaultOptions` didn't work */
+    if (!actualOpt.length) actualOpt.push(defaults);
+    const combined = R.map(iterator, actualOpt);
 
     const [allowed, prohibited, limited, ignored] = mapTuple(
       (group) => R.flatten(R.pluck(group, combined)),
