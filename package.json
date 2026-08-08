@@ -1,10 +1,39 @@
 {
   "name": "eslint-plugin-allowed-dependencies",
-  "description": "ESLint plugin Allowed Dependencies",
   "version": "3.0.0",
+  "description": "ESLint plugin Allowed Dependencies",
+  "keywords": [
+    "dependencies",
+    "eslint",
+    "eslint-plugin",
+    "eslint-rules",
+    "eslintplugin",
+    "exhaustive",
+    "external-dependency",
+    "extraneous",
+    "import",
+    "modules",
+    "restriction"
+  ],
+  "homepage": "https://github.com/RobinTail/allowed-dependencies",
+  "bugs": "https://github.com/RobinTail/allowed-dependencies/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Anna Bocharova",
+    "url": "https://robintail.cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobinTail/allowed-dependencies.git"
+  },
+  "funding": "https://github.com/sponsors/RobinTail",
+  "files": [
+    "dist",
+    "*.md"
+  ],
   "type": "module",
-  "module": "dist/index.js",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
@@ -12,29 +41,12 @@
       "default": "./dist/index.js"
     }
   },
-  "packageManager": "pnpm@11.20.0",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RobinTail/allowed-dependencies.git"
-  },
-  "homepage": "https://github.com/RobinTail/allowed-dependencies",
-  "bugs": "https://github.com/RobinTail/allowed-dependencies/issues",
-  "funding": "https://github.com/sponsors/RobinTail",
-  "author": {
-    "name": "Anna Bocharova",
-    "url": "https://robintail.cz"
-  },
-  "files": [
-    "dist",
-    "*.md"
-  ],
   "scripts": {
     "build": "tsdown",
-    "lint": "biome check",
+    "lint": "oxfmt --check",
     "pretest": "tsc --noEmit",
     "test": "vitest run",
-    "mdfix": "pnpm dlx prettier *.md --write",
+    "mdfix": "oxfmt *.md",
     "prepublishOnly": "pnpm run lint && pnpm run test && pnpm run build"
   },
   "dependencies": {
@@ -42,7 +54,6 @@
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.2",
-    "@biomejs/biome": "2.5.6",
     "@tsconfig/node22": "^22.0.5",
     "@types/node": "^22.0.0",
     "@types/ramda": "^0.32.0",
@@ -50,6 +61,7 @@
     "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^10.0.0",
     "json-schema-to-ts": "^3.1.1",
+    "oxfmt": "^0.62.0",
     "tsdown": "^0.22.0",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.56.0",
@@ -62,17 +74,5 @@
   "engines": {
     "node": "^22.19.0 || ^24.11.0 || ^26.0.0"
   },
-  "keywords": [
-    "modules",
-    "eslint",
-    "eslint-plugin",
-    "import",
-    "eslint-rules",
-    "dependencies",
-    "eslintplugin",
-    "restriction",
-    "external-dependency",
-    "exhaustive",
-    "extraneous"
-  ]
+  "packageManager": "pnpm@11.20.0"
 }
