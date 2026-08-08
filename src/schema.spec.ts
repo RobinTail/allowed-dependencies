@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import { options } from "./schema";
+import { describe, expect, it } from "vitest";
+import { options } from "./schema.ts";
 
 describe("Schema", () => {
   describe("options", () => {

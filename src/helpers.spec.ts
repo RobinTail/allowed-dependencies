@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import { readerMock } from "../mocks/fs.ts";
 import { getManifest, getName, splitPeers } from "./helpers.ts";
 

@@ -1,7 +1,11 @@
 {
-  "extends": "@tsconfig/bun/tsconfig.json",
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "types": ["bun"]
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true
   },
   "include": ["src"]
 }

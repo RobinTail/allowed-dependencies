@@ -1,6 +1,6 @@
-// Bun Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Schema options has the required props 1`] = `
+exports[`Schema > options > has the required props 1`] = `
 {
   "additionalProperties": false,
   "properties": {

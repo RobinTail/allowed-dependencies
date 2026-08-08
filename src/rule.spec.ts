@@ -1,8 +1,8 @@
-import { afterAll, describe, it } from "bun:test";
 import parser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
+import { afterAll, describe, it } from "vitest";
 import { readerMock } from "../mocks/fs.ts";
-import { rule } from "./rule";
+import { rule } from "./rule.ts";
 
 const makeBefore =
   (...envs: object[]) =>

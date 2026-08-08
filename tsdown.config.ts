@@ -5,7 +5,7 @@ export default defineConfig({
   entry: "./src/index.ts",
   minify: true,
   deps: {
-    skipNodeModulesBundle: true,
+    neverBundle: true,
   },
   attw: { level: "error", profile: "esm-only" },
 });
