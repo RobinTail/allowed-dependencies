@@ -67,4 +67,4 @@ jobs:
         run: pnpm run build
       - name: Test
         working-directory: integration-test
-        run: pnpm exec eslint src/sample.ts --debug
+        run: pnpm exec oxlint src/sample.ts --debug=timings

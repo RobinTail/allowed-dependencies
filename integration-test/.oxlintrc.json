@@ -1,0 +1,18 @@
+{
+  "plugins": ["typescript"],
+  "jsPlugins": [{
+    "name": "allowed",
+    "specifier": "eslint-plugin-allowed-dependencies"
+  }],
+  "categories": {
+    "correctness": "error"
+  },
+  "env": {
+    "builtin": true,
+    "node": true
+  },
+  "ignorePatterns": [],
+  "rules": {
+    "allowed/dependencies": ["error", { "typeOnly": ["typescript"] }]
+  }
+}
