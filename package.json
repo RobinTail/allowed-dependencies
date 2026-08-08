@@ -43,7 +43,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "lint": "oxlint && oxfmt --check",
+    "lint": "oxlint --disable-nested-config && oxfmt --check",
     "pretest": "tsc --noEmit",
     "test": "vitest run",
     "mdfix": "oxfmt *.md",
