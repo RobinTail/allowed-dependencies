@@ -11,6 +11,6 @@
     {
       "groupName": "Vitest and its coverage provider",
       "matchPackageNames": ["vitest", "@vitest/*"]
-    }    
+    }
   ]
 }
