@@ -60,7 +60,7 @@
     "@types/ramda": "^0.32.0",
     "@vitest/coverage-v8": "^5.0.0",
     "json-schema-to-ts": "^3.1.1",
-    "oxfmt": "^0.66.0",
+    "oxfmt": "^0.67.0",
     "oxlint": "^1.76.0",
     "tsdown": "^0.23.0",
     "typescript": "^7.0.2",
