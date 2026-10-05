@@ -182,7 +182,7 @@ importers:
         version: 22.0.6
       '@types/node':
         specifier: ^22.0.0
-        version: 22.20.4
+        version: 22.20.5
       '@types/ramda':
         specifier: ^0.32.0
         version: 0.32.0
@@ -206,7 +206,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^5.0.0
-        version: 5.0.3(@types/node@22.20.4)(@vitest/coverage-v8@5.0.3)(vite@8.2.1)
+        version: 5.0.3(@types/node@22.20.5)(@vitest/coverage-v8@5.0.3)(vite@8.2.1)
 
   integration-test:
     devDependencies:
@@ -629,8 +629,8 @@ packages:
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
-  '@types/node@22.20.4':
-    resolution: {integrity: sha512-zJRE40jpHtKqE/C4fgHrAKQLJuSpzEnP9ff9Y7YtoR3Wd2pwqzlekDeEuUQXjRd+QCYnVnNwuJYmhdk9XV8gvA==}
+  '@types/node@22.20.5':
+    resolution: {integrity: sha512-U2+DNr+wSjpsTS/wZGYHq7GcwfuSmKiKvoPvK22zwTlRhU91yOniN4qRR5KhIjvif7ysw/dz/hKmfDH0Ris4aA==}
 
   '@types/ramda@0.32.0':
     resolution: {integrity: sha512-eTRIFYUxjVvZimlPNpXzXc3j4tnSYc7lBsD7X3zwtRvJML3qXclM4+m8vvmAZAHhBASKPmZAp6qu2C/DwJpBGQ==}
@@ -1619,7 +1619,7 @@ snapshots:
 
   '@types/estree@1.0.9': {}
 
-  '@types/node@22.20.4':
+  '@types/node@22.20.5':
     dependencies:
       undici-types: 6.21.0
 
@@ -1697,7 +1697,7 @@ snapshots:
       obug: 2.1.4
       std-env: 4.2.0
       tinyrainbow: 3.1.1
-      vitest: 5.0.3(@types/node@22.20.4)(@vitest/coverage-v8@5.0.3)(vite@8.2.1)
+      vitest: 5.0.3(@types/node@22.20.5)(@vitest/coverage-v8@5.0.3)(vite@8.2.1)
 
   '@vitest/istanbul-lib-coverage@1.0.1': {}
 
@@ -1712,7 +1712,7 @@ snapshots:
       estree-walker: 3.0.3
       magic-string: 1.2.3
     optionalDependencies:
-      vite: 8.2.1(@types/node@22.20.4)
+      vite: 8.2.1(@types/node@22.20.5)
 
   '@vitest/spy@5.0.3': {}
 
@@ -2096,7 +2096,7 @@ snapshots:
 
   verkit@0.4.0: {}
 
-  vite@8.2.1(@types/node@22.20.4):
+  vite@8.2.1(@types/node@22.20.5):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -2104,10 +2104,10 @@ snapshots:
       rolldown: 1.2.7
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 22.20.4
+      '@types/node': 22.20.5
       fsevents: 2.3.3
 
-  vitest@5.0.3(@types/node@22.20.4)(@vitest/coverage-v8@5.0.3)(vite@8.2.1):
+  vitest@5.0.3(@types/node@22.20.5)(@vitest/coverage-v8@5.0.3)(vite@8.2.1):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/mocker': 5.0.3(vite@8.2.1)
@@ -2121,10 +2121,10 @@ snapshots:
       tinybench: 6.1.4
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
-      vite: 8.2.1(@types/node@22.20.4)
+      vite: 8.2.1(@types/node@22.20.5)
       why-is-node-running: 3.2.1
     optionalDependencies:
-      '@types/node': 22.20.4
+      '@types/node': 22.20.5
       '@vitest/coverage-v8': 5.0.3(vitest@5.0.3)
     transitivePeerDependencies:
       - msw
