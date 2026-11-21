@@ -64,6 +64,7 @@
     "oxlint": "^1.76.0",
     "tsdown": "^0.23.0",
     "typescript": "7.1.0-beta",
+    "vite": "^8.3.8",
     "vitest": "^5.0.0"
   },
   "peerDependencies": {
@@ -85,5 +86,5 @@
   "engines": {
     "node": "^22.19.0 || ^24.11.0 || ^26.0.0"
   },
-  "packageManager": "pnpm@12.20.0"
+  "packageManager": "pnpm@12.21.0"
 }
